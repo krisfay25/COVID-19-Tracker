@@ -139,8 +139,8 @@ def clean_infection_rate_data():
 
     #Establish parameters for connection to database
     config = {
-       'user': 'root', # USE YOUR USERNAME, NEVER PUSH THIS
-       'password': 'SoftwareEngineering21!!', # USE YOUR PASSWORD, NEVER PUSH THIS
+       'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
+       'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
        'host': 'localhost',
        'port': 3306,
        'database': 'RI_DATA',
