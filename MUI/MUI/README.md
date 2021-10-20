@@ -68,3 +68,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+How to run this program
+Be in the first MUI folder
+Download MUI
+TO DO: update the version of some of the MUI packages I am using.  For now, install the packages with thiese commands.
+
+sudo npm install '@material-ui/core'
+sudo npm install '@mui/material'
+sudo npm install '@mui/icons-material'
+
+$ sudo npm -g install create-react-app
