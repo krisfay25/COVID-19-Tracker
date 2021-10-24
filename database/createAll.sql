@@ -50,3 +50,23 @@ CREATE TABLE IF NOT EXISTS Monthly_Cases
     total			INT NOT NULL,
     PRIMARY KEY(municipality)
 );
+
+CREATE TABLE IF NOT EXISTS Monthly_Vax_Nums
+(
+	county 			VARCHAR(20) NOT NULL,
+    municipality 	VARCHAR(20) NOT NULL UNIQUE,
+    population		INT NOT NULL,
+    dec_2020		INT NOT NULL,
+    jan_2021		INT NOT NULL,
+    feb_2021		INT NOT NULL,
+    mar_2021		INT NOT NULL,
+    apr_2021		INT NOT NULL,
+    may_2021		INT NOT NULL,
+    jun_2021		INT NOT NULL,
+    jul_2021		INT NOT NULL,
+    aug_2021		INT NOT NULL,
+    sep_2021		INT NOT NULL,
+    oct_2021		INT NOT NULL,
+    PRIMARY KEY(municipality)			
+
+);
