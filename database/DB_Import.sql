@@ -63,6 +63,43 @@ INSERT INTO `monthly_cases` VALUES ('Bristol County','Barrington',9,18,18,5,10,3
 UNLOCK TABLES;
 
 --
+-- Table structure for table `monthly_vax_nums`
+--
+
+DROP TABLE IF EXISTS `monthly_vax_nums`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `monthly_vax_nums` (
+  `county` varchar(20) NOT NULL,
+  `municipality` varchar(20) NOT NULL,
+  `population` int NOT NULL,
+  `dec_2020` int NOT NULL,
+  `jan_2021` int NOT NULL,
+  `feb_2021` int NOT NULL,
+  `mar_2021` int NOT NULL,
+  `apr_2021` int NOT NULL,
+  `may_2021` int NOT NULL,
+  `jun_2021` int NOT NULL,
+  `jul_2021` int NOT NULL,
+  `aug_2021` int NOT NULL,
+  `sep_2021` int NOT NULL,
+  `oct_2021` int NOT NULL,
+  PRIMARY KEY (`municipality`),
+  UNIQUE KEY `municipality` (`municipality`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `monthly_vax_nums`
+--
+
+LOCK TABLES `monthly_vax_nums` WRITE;
+/*!40000 ALTER TABLE `monthly_vax_nums` DISABLE KEYS */;
+INSERT INTO `monthly_vax_nums` VALUES ('Bristol County','Barrington',16178,2,148,1205,4816,7031,1794,2705,191,87,289,69),('Bristol County','Bristol',22234,0,192,1359,4451,5571,926,1207,156,156,481,109),('Providence County','Burrillville',16453,0,171,1143,3437,4582,893,1419,182,185,529,113),('Providence County','Central Falls',19382,0,256,1963,3596,1749,598,1707,460,360,1034,221),('Washington County','Charlestown',7780,0,86,702,4435,5552,1133,1826,198,182,471,92),('Kent County','Coventry',34575,0,112,875,3606,5285,1004,1378,243,236,719,162),('Providence County','Cranston',81196,2,162,1191,3608,5324,1085,1531,246,288,796,165),('Providence County','Cumberland',34652,0,126,1148,5153,5322,961,1350,216,177,533,119),('Kent County','East Greenwich',13073,0,139,1105,4021,6049,1645,2641,226,157,576,147),('Providence County','East Providence',47449,2,155,1113,2937,4504,924,1372,276,220,627,133),('Washington County','Exeter',6782,0,135,1013,4428,6079,1018,1238,171,145,542,139),('Providence County','Foster',4689,0,201,1341,3424,4670,993,1539,137,201,436,67),('Providence County','Glocester',10062,0,197,1340,3442,4519,1181,2046,145,247,634,122),('Washington County','Hopkinton',8111,0,92,708,4312,5637,1316,2265,206,243,668,137),('Newport County','Jamestown',5496,0,68,647,5557,6730,1112,1407,109,132,385,83),('Providence County','Johnston',29235,2,157,1127,3703,5042,882,1198,223,274,862,198),('Providence County','Lincoln',21644,2,261,1822,4616,5736,1061,1480,202,214,519,94),('Newport County','Little Compton',3505,0,130,991,4198,5417,770,738,110,1,4,1),('Newport County','Middletown',16078,0,141,1056,4602,5843,1055,1512,195,181,504,105),('Washington County','Narragansett',15550,0,93,796,5226,5925,828,977,143,129,389,86),('Newport County','Newport',24762,0,102,767,3264,4135,789,1263,218,170,517,117),('Washington County','North Kingstown',26207,0,102,867,4913,6267,1119,1524,204,167,513,117),('Providence County','North Providence',32459,2,182,1305,3969,5316,937,1309,263,225,810,204),('Providence County','North Smithfield',12349,0,134,940,4181,5643,961,1369,198,222,550,102),('Providence County','Pawtucket',71756,2,107,848,3501,5141,964,1465,380,270,873,205),('Newport County','Portsmouth',17418,0,120,935,4274,5835,1135,1531,145,130,383,84),('Providence County','Providence',179435,2,92,709,3111,4437,963,1777,410,317,964,217),('Washington County','Richmond',7626,0,86,676,4335,5322,1229,2263,264,213,716,172),('Providence County','Scituate',10603,2,184,1283,4210,5727,1005,1297,150,263,808,183),('Providence County','Smithfield',21630,0,256,1702,3654,5205,897,1076,133,186,526,111),('Washington County','South Kingstown',30735,0,90,771,4605,5059,857,1229,145,178,370,53),('Newport County','Tiverton',15816,0,89,763,4045,4618,756,954,119,122,276,45),('Bristol County','Warren',10488,0,223,1568,4394,5770,1062,1428,171,168,577,142),('Kent County','Warwick',81079,0,129,1071,3955,5206,1046,1442,238,219,657,146),('Kent County','West Greenwich',6179,0,150,1129,4133,5147,913,1247,180,236,591,111),('Kent County','West Warwick',28955,0,91,748,3375,4987,945,1271,235,283,781,162),('Washington County','Westerly',22624,0,121,873,3908,5611,840,956,182,218,565,110),('Providence County','Woonsocket',41539,0,72,513,2327,3611,725,1293,309,251,702,147);
+/*!40000 ALTER TABLE `monthly_vax_nums` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `municipality`
 --
 
@@ -104,4 +141,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-17 16:40:38
+-- Dump completed on 2021-10-24 12:04:13
