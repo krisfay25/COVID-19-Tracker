@@ -4,79 +4,24 @@ import { Button, Typography, AppBar, Car, CardActions, CardContent, CardMedia, C
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import Stack from '@mui/material/Stack';
 import ButtonBase from '@mui/material/ButtonBase';
+import Main from './pages/main';
+import Casual from './pages/Casual';
+import Informative from './pages/Informative';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 const App = () => {
   const [isShownCasual, setIsShownCasual] = useState(false);
   const [isShownInformative, setIsShownInformative] = useState(false);
   return (
-    <>
-      <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <MedicalServicesIcon />
-          <Typography variant="h6">
-            Home
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
-      <main>
-        <div>
-          <br/>
-          <Typography variant='h2' align="center" color="textPrimary" gutterBottom>
-            Covid Tracker
-          </Typography>
-
-          <Typography variant='h5' align="center" color="textSecondary" gutterBottom>
-            Choose your view:
-          </Typography>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-
-          <Stack direction="row" spacing={10} style={{justifyContent: 'center'}}>
-            <Button 
-            variant="contained" size="large"
-            onMouseEnter={() => setIsShownCasual(true)}
-            onMouseLeave={() => setIsShownCasual(false)}>
-              Casual
-            </Button>
-            <Button 
-            variant="contained" size="large"
-            onMouseEnter={() => setIsShownInformative(true)}
-            onMouseLeave={() => setIsShownInformative(false)}>
-              Informative
-            </Button>
-
-
-          </Stack>
-          {isShownCasual && (
-              
-              <div>
-                <br />
-                <Typography variant='h5' align="center" color="textSecondary" gutterBottom>
-                Casual: 
-                <br/>This selection allows visual aids in the form of maps and give a 
-                <br/>county by county breakdown of COVID cases and vaccination rates.
-                </Typography>
-              </div>
-            )}
-
-            {isShownInformative && (
-              
-              <div>
-                <br />
-                 <Typography variant='h5' align="center" color="textSecondary" gutterBottom>
-                Informative: 
-                <br/>This selection allows the user to access more detailed data in a spreadsheet 
-                <br/>form without the map.
-                </Typography>
-              </div>
-            )}
-        </div>
-      </main>
-    </>
-  );
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route path="/" exact component={Main} />
+          <Route path="/casual" component={Casual} />
+          <Route path="/informative" component={Informative} />
+        </Switch>
+      </div>
+    </Router>
+  )
 }
 export default App;
