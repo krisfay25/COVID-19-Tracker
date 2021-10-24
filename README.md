@@ -1,9 +1,9 @@
 # 447Team1Project
 
-Steps to download database/tables/data:
+### Steps to download database/tables/data:
 (Prerequisites: Need MySQL Community Server (Full option) downloaded onto your computer)
 
-1)  Download 'DB_Import.sql'
+1)  Download 'DB_Import.sql' (if you have this repository, it's included in here)
 2)  Connect to your localhost instance on MySQL Workbench
 3)  Once connected, click 'Server' on the menu bar
 4)  Click 'Data Import'
@@ -12,3 +12,8 @@ Steps to download database/tables/data:
 7)  Click 'Start Import'
 
 The database, along with the pre-made tables should be populated with data
+
+### Running the api
+1. Install pipenv with `pip install pipenv`
+2. In the API folder, run the command `pipenv install`
+3. Run the flask server with `pipenv run flask run`
