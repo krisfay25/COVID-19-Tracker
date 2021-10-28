@@ -1,10 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import TemporaryDrawer from '../components/TemporaryDrawer';
 
 function Casual(props) {
+
     return (
         <div>
-          <h1>Casual Page</h1> 
+          <TemporaryDrawer/>
+          <h1>Casual Page</h1>
         </div>
     )
 }
