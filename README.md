@@ -14,6 +14,7 @@
 The database, along with the pre-made tables should be populated with data
 
 ### Running the api
-1. Install pipenv with `pip install pipenv`
+1. If you don't have pipenv, install pipenv with `pip install pipenv`
 2. In the API folder, run the command `pipenv install`
-3. Run the flask server with `pipenv run flask run`
+3. Fill in the credentials for your MySQL server in `app.py` (line 11)
+4. Run the flask server with `pipenv run flask run`
