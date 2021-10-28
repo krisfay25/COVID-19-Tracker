@@ -30,19 +30,17 @@ def close_database(error):
     if db is not None:
         db.close()
 
-# Get the total number vaccinated
-@app.route('/<county>/total-vaccinated', methods=['GET'])
-def total_vaccinated(county):
-    # get the totals from all municipalities in the county
+# Stats keyed by county
+@app.route('/all/<stat>', methods=['GET'])
+def county_data(stat):
+    # get the data for all counties
     cur = get_db().cursor()
-    cur.execute(f'SELECT total_vaccinated FROM Municipality WHERE County="{county} County"')
+    cur.execute(f'SELECT county_name, {stat} FROM counties')
     result = cur.fetchall()
 
-    # add up the totals
-    total = 0
-    for element in result:
-        total += element[0]
+    # change the format to dictionary instead of tuples
+    dictionary = dict(result)
 
     cur.close()
 
-    return jsonify(total)
+    return jsonify(dictionary)
