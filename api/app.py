@@ -30,12 +30,12 @@ def close_database(error):
     if db is not None:
         db.close()
 
-# Stats keyed by county
+# Stats keyed by county fips
 @app.route('/all/<stat>', methods=['GET'])
 def county_data(stat):
     # get the data for all counties
     cur = get_db().cursor()
-    cur.execute(f'SELECT county_name, {stat} FROM counties')
+    cur.execute(f'SELECT fips, {stat} FROM counties')
     result = cur.fetchall()
 
     # change the format to dictionary instead of tuples
