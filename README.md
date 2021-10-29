@@ -18,3 +18,6 @@ The database, along with the pre-made tables should be populated with data
 2. In the API folder, run the command `pipenv install`
 3. Fill in the credentials for your MySQL server in `app.py` (line 11)
 4. Run the flask server with `pipenv run flask run`
+
+### Steps to Run Leaflet React
+1. In the MUI folder, run the command `npm install react-leaflet`
