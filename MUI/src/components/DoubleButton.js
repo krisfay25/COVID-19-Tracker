@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import {Link} from 'react-router-dom';

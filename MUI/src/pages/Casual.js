@@ -1,5 +1,5 @@
 import React from 'react'
-import { MapContainer, TileLayer, Marker, Popup, Map } from 'react-leaflet'
+import { MapContainer, TileLayer } from 'react-leaflet'
 import './leaflet/Casual.css';
 import './leaflet/counties_geoJSON.js';
 import TemporaryDrawer from '../components/TemporaryDrawer';

@@ -37,7 +37,7 @@ export default function TemporaryDrawer() {
           <ListItem button key={text}>
             <ListItemText primary={text} />
             <ListItemIcon>
-              {index == 0 ?  <DoubleButton/>
+              {index === 0 ?  <DoubleButton/>
                 : <Switch/>}
             </ListItemIcon>
             
