@@ -12,14 +12,6 @@ function Main(props) {
     return (
       <>
         <CssBaseline />
-        <AppBar position="relative">
-          <Toolbar>
-            <MedicalServicesIcon />
-            <Typography variant="h6">
-              Home
-            </Typography>
-          </Toolbar>
-        </AppBar>
   
         <main>
           <div>
