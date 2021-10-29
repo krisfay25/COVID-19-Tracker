@@ -8,7 +8,6 @@ import Main from './pages/main';
 import Casual from './pages/Casual';
 import Informative from './pages/Informative';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 const App = () => {
   const [isShownCasual, setIsShownCasual] = useState(false);
