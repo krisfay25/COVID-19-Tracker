@@ -9,6 +9,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import DoubleButton from './DoubleButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+import './TemporaryDrawer.css';
 
 export default function TemporaryDrawer() {
   const [state, setState] = React.useState({
@@ -24,6 +25,7 @@ export default function TemporaryDrawer() {
   };
 
   const list = (anchor) => (
+    <p>
     <Box
       sx={{ width: 400 }}
       role="presentation"
@@ -43,13 +45,14 @@ export default function TemporaryDrawer() {
         ))}
       </List>
     </Box>
+    </p>
   );
 
   return (
     <div>
       {['Settings'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}><SettingsIcon color= "secondary" fontSize="large"/></Button>
+          <Button onClick={toggleDrawer(anchor, true)}><SettingsIcon sx={{color: 'black'}} fontSize="large"/></Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

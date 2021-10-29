@@ -1,4 +1,9 @@
 .leaflet-container{
-    width: 50vw;
-    height: 50vh;
+    width: 100vw;
+    height: 100vh;
+}
+.leaflet-control-container { 
+    position: absolute;
+    bottom: 85px;
+    right: 56px;
 }
