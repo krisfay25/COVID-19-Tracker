@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, g
+from flask import Flask, json, jsonify, g
 from flask_cors import CORS
 import mysql.connector
 
@@ -33,8 +33,17 @@ def close_database(error):
 # Stats keyed by county fips
 @app.route('/all/<stat>', methods=['GET'])
 def county_data(stat):
-    # get the data for all counties
     cur = get_db().cursor()
+
+    # special case for geo json as the json must be parsed and returned in a list format
+    if stat == 'geo_json_data':
+        cur.execute(f'SELECT geo_json_data FROM counties')
+        results = cur.fetchall()
+        features = [json.loads(result[0]) for result in results]
+        cur.close()
+        return jsonify(features)
+
+    # get the data for all counties
     cur.execute(f'SELECT fips, {stat} FROM counties')
     result = cur.fetchall()
 
