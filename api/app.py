@@ -32,7 +32,7 @@ def close_database(error):
 
 # Stats keyed by county fips
 @app.route('/all/<stat>', methods=['GET'])
-def county_data(stat):
+def all_data(stat):
     cur = get_db().cursor()
 
     # special case for geo json as the json must be parsed and returned in a list format
@@ -49,6 +49,27 @@ def county_data(stat):
 
     # change the format to dictionary instead of tuples
     dictionary = dict(result)
+
+    cur.close()
+
+    return jsonify(dictionary)
+
+# Stats for a county keyed by stat
+@app.route('/county/<fips>/cases', methods=['GET'])
+def county_data(fips):
+    cur = get_db().cursor()
+
+    # get column headers
+    cur.execute(f'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA="RI_DATA" AND TABLE_NAME="Monthly_cases"')
+    result = cur.fetchall()
+    headers = [name[0] for name in result]
+
+    # get all stats for the county
+    cur.execute(f'SELECT * FROM Monthly_cases WHERE fips="{fips}"')
+    result = cur.fetchall()
+
+    # zip the headers with each month, to make the headers the keys
+    dictionary = [dict(zip(headers, month)) for month in result]
 
     cur.close()
 
