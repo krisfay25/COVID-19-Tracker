@@ -57,7 +57,7 @@ def all_data(stat):
     result = cur.fetchall()
 
     # change the format to dictionary instead of tuples to be jsonified
-    dictionary = dict(result)
+    dictionary = [{ "fips": entry[0], "value": entry[1] } for entry in result]
 
     cur.close()
 
