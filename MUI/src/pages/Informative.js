@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import TemporaryDrawer from '../components/TemporaryDrawer';
 
 function Informative(props) {

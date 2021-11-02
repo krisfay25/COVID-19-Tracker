@@ -1,9 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
-import { Button, Typography, AppBar, Car, CardActions, CardContent, CardMedia, CssBaseline, Grid, Toolbar, Container } from '@material-ui/core';
-import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
+import { Button, Typography, CssBaseline } from '@material-ui/core';
 import Stack from '@mui/material/Stack';
-import ButtonBase from '@mui/material/ButtonBase';
 import {Link} from 'react-router-dom';
 
 function Main(props) {
@@ -29,7 +27,7 @@ function Main(props) {
             <br/>
   
             <Stack direction="row" spacing={10} style={{justifyContent: 'center'}}>
-              <Link to="/Casual">
+              <Link to="/Casual" style={{ textDecoration: 'none' }}>
                   <Button 
                   variant="contained" size="large"
                   onMouseEnter={() => setIsShownCasual(true)}
@@ -37,7 +35,7 @@ function Main(props) {
                       Casual
                 </Button>
               </Link>
-              <Link to="/Informative">
+              <Link to="/Informative" style={{ textDecoration: 'none' }}>
               <Button 
               variant="contained" size="large"
               onMouseEnter={() => setIsShownInformative(true)}
