@@ -17,9 +17,13 @@ config = {
 }
 
 # The columns of each table
-counties_headers = ['fips', 'state_id', 'county_name', 'total_cases', 'total_hospital', 'total_deaths', 'total_vaccinated', 'last_updated_timestamp']
-monthly_case_headers = ['fips', 'infection_month', 'infection_year', 'num_cases', 'rate_cases']
-monthly_vax_headers = ['fips', 'vaxxed_month', 'vaxxed_year', 'num_vaxxed', 'rate_vaxxed']
+county_headers = ['fips', 'state_id', 'county_name', 'total_cases', 'total_hospital', 'total_deaths', 'total_vaccinated', 'last_updated_timestamp']
+monthly_headers = {
+    'monthly_cases': ['fips', 'infection_month', 'infection_year', 'num_cases', 'rate_cases', 'last_updated'],
+    'monthly_deaths': ['fips', 'death_month', 'death_year', 'num_deaths', 'rate_deaths', 'last_updated'],
+    'monthly_vax_nums': ['fips', 'vaxxed_month', 'vaxxed_year', 'num_vaxxed', 'rate_vaxxed', 'last_updated'],
+    'monthly_hospital': ['fips', 'hospit_month', 'hospit_year', 'num_hospit', 'rate_hospit', 'last_updated']
+}
 
 # Connect to the database when needed
 def get_db():
@@ -36,15 +40,16 @@ def close_database(error):
         db.close()
 
 # Stats keyed by county fips
+# example: /all/county_name
 @app.route('/all/<stat>', methods=['GET'])
 def all_data(stat):
     # error if the stat is not found
-    if stat not in counties_headers and stat != 'geo_json_data':
+    if stat not in county_headers and stat != 'geo_json_data':
         return f'Stat {stat} not in database', 400
 
     cur = get_db().cursor()
 
-    # special case for geo json as the json must be parsed and returned in a list format
+    # geo json must be parsed and returned as a list
     if stat == 'geo_json_data':
         cur.execute(f'SELECT geo_json_data FROM Counties')
         results = cur.fetchall()
@@ -56,7 +61,7 @@ def all_data(stat):
     cur.execute(f'SELECT fips, {stat} FROM Counties')
     result = cur.fetchall()
 
-    # change the format to dictionary instead of tuples to be jsonified
+    # change the format to list of dictionaries instead of tuples
     dictionary = [{ "fips": entry[0], "value": entry[1] } for entry in result]
 
     cur.close()
@@ -64,11 +69,12 @@ def all_data(stat):
     return jsonify(dictionary)
 
 # Stats for a county keyed by stat
+# example: /county/44001
 @app.route('/county/<fips>', methods=['GET'])
-def county_data(fips):
+def county_main_data(fips):
     cur = get_db().cursor()
 
-    cur.execute(f'SELECT {",".join(counties_headers)} FROM Counties WHERE fips={fips}')
+    cur.execute(f'SELECT {",".join(county_headers)} FROM Counties WHERE fips={fips}')
     result = cur.fetchall()
 
     # error if the fips code returned nothing
@@ -77,19 +83,25 @@ def county_data(fips):
         return f'County with fips code {fips} not in database', 400
 
     # zip the headers with each stat, to make the headers the keys
-    dictionary = dict(zip(counties_headers, result[0]))
+    dictionary = dict(zip(county_headers, result[0]))
 
     cur.close()
 
     return jsonify(dictionary)
 
-# Cases for a county in a list (monthly)
-@app.route('/county/<fips>/cases', methods=['GET'])
-def county_cases(fips):
+# Monthly data for a county from a table (cases, deaths, hospital, vax_nums)
+# example: /county/44001/monthly/cases
+@app.route('/county/<fips>/monthly/<table>', methods=['GET'])
+def county_monthly_data(fips, table):
+    # error if there's no monthly table for that stat
+    headers = monthly_headers.get(f'monthly_{table}')
+    if not headers:
+        return f'Table {table} does not exist', 400
+    
     cur = get_db().cursor()
 
-    # get all stats for the county
-    cur.execute(f'SELECT {",".join(monthly_case_headers)} FROM Monthly_Cases WHERE fips="{fips}"')
+    # get the data from the specified table for the county
+    cur.execute(f'SELECT {",".join(headers)} FROM Monthly_{table} WHERE fips="{fips}"')
     result = cur.fetchall()
 
     # error if the fips code returned nothing
@@ -98,28 +110,7 @@ def county_cases(fips):
         return f'County with fips code {fips} not in database', 400
 
     # zip the headers with each month, to make the headers the keys
-    dictionary = [dict(zip(monthly_case_headers, month)) for month in result]
-
-    cur.close()
-
-    return jsonify(dictionary)
-
-# Vax data for a county in a list (monthly)
-@app.route('/county/<fips>/vaccination', methods=['GET'])
-def county_vax(fips):
-    cur = get_db().cursor()
-
-    # get all stats for the county
-    cur.execute(f'SELECT {",".join(monthly_vax_headers)} FROM Monthly_Vax_Nums WHERE fips="{fips}"')
-    result = cur.fetchall()
-
-    # error if the fips code returned nothing
-    if not result:
-        cur.close()
-        return f'County with fips code {fips} not in database', 400
-
-    # zip the headers with each month, to make the headers the keys
-    dictionary = [dict(zip(monthly_vax_headers, month)) for month in result]
+    dictionary = [dict(zip(headers, month)) for month in result]
 
     cur.close()
 
