@@ -271,10 +271,10 @@ def clean_municipality_data():
 # RATE DATA
 def clean_infection_rate_data():
 
-
-    
     # Reads csv
     monthly_case_data = pd.read_csv('COVID-19 Rhode Island Data - Monthly Case Rates by Municipality.csv')
+    
+    last_updated_date = monthly_case_data["Unnamed: 1"][1]
 
     # Drop unnecessary rows
     monthly_case_data.drop(labels=[0, 1, 2, 3, 4, 6], axis=0, inplace=True)
@@ -330,6 +330,8 @@ def clean_infection_rate_data():
     
     monthly_case_data = monthly_case_data.T
     
+    monthly_case_data["Last Updated"] = last_updated_date
+    
     return monthly_case_data
 
 # This function cleans data for the 'Monthly_cases' table
@@ -338,6 +340,8 @@ def clean_infection_num_data():
     
     # Reads csv
     monthly_case_data = pd.read_csv('COVID-19 Rhode Island Data - Monthly Case Trends by Municipality.csv')
+    
+    last_updated_date = monthly_case_data["Unnamed: 1"][1]
 
     # Drop unnecessary rows
     monthly_case_data.drop(labels=[0, 1, 2, 3, 4], axis=0, inplace=True)
@@ -393,6 +397,8 @@ def clean_infection_num_data():
     
     monthly_case_data = monthly_case_data.T
     
+    monthly_case_data["Last Updated"] = last_updated_date
+    
     return monthly_case_data
 
 # This function cleans data for the 'Monthly_Vax_Nums' table
@@ -401,6 +407,8 @@ def clean_vaccination_rate_data():
     
     # Reads csv
     vax_data = pd.read_csv('COVID-19 Rhode Island Data - Municipal Vaccination Rate Trends - Complete Vax.tsv', sep='\t')
+    
+    last_updated_date = vax_data["Unnamed: 1"][1]
 
     # Drop unnecessary rows
     vax_data.drop(labels=[0, 1, 2, 3, 4, 6], axis=0, inplace=True)
@@ -515,6 +523,8 @@ def clean_vaccination_rate_data():
 
     vax_data = vax_data.T
     
+    vax_data["Last Updated"] = last_updated_date
+    
     return vax_data
 
 # This function cleans data for the 'Monthly_Vax_Nums' table
@@ -523,6 +533,8 @@ def clean_vaccination_num_data():
     
     # Reads csv
     vax_data = pd.read_csv('COVID-19 Rhode Island Data - Municipal Vaccination Trends - Complete Vax.tsv', sep='\t')
+    
+    last_updated_date = vax_data["Unnamed: 1"][1]
 
     # Drop unnecessary rows
     vax_data.drop(labels=[0, 1, 2, 3, 4], axis=0, inplace=True)
@@ -637,7 +649,282 @@ def clean_vaccination_num_data():
 
     vax_data = vax_data.T
     
+    vax_data["Last Updated"] = last_updated_date
+    
     return vax_data
+
+# This function cleans data for the 'Monthly_Deaths' table
+# NUM DATA
+def clean_death_num_data():
+
+    # Reads csv
+    monthly_death_data = pd.read_csv('COVID-19 Rhode Island Data - Monthly Fatality Trends by Municipality.csv')
+    
+    last_updated_date = monthly_death_data["Unnamed: 1"][1]
+
+    # Drop unnecessary rows
+    monthly_death_data.drop(labels=[0, 1, 2, 3, 4], axis=0, inplace=True)
+
+    # Transpose dataframe so the locations are rows, not columns
+    monthly_death_data = monthly_death_data.T
+
+    # Rename the columns so the dates are the column names
+    monthly_death_data.columns = monthly_death_data.iloc[0]
+
+    # Remove the row of data that contains dates (since they are now column names)
+    monthly_death_data = monthly_death_data.iloc[1: , :]
+
+    # Make Municipality Names In Title Case
+    monthly_death_data['Month of Death'] = monthly_death_data['Month of Death'].apply(lambda x: x.title())
+
+    monthly_death_data.rename(columns={'Month of Death': 'Municipality of residence'}, inplace=True)
+
+    # Creates a dataframe that only contains municipalities with their associated counties
+    counties = pd.DataFrame(list(zip(counties_municipalities.rhode_island_counties, 
+                                     counties_municipalities.rhode_island_municipalities)),
+                            columns=['County', 'Municipality of residence'])
+
+    # Merge dataframes 
+    monthly_death_data = monthly_death_data.merge(counties, on='Municipality of residence', how='right')
+
+    # Reorder columns
+    cols = monthly_death_data.columns.tolist()
+    cols = cols[-1:] + cols[:-1]
+    monthly_death_data = monthly_death_data[cols]
+
+    # Changes values of '<5' with 3
+    # Values of '<5' could be 1, 2, 3, 4, 5.  So assume the average number.
+    monthly_death_data = monthly_death_data.replace('<5', 3)
+
+    # Drop Municipality column
+    monthly_death_data.drop(columns=["Municipality of residence"], axis=1, inplace=True)
+
+    # Convert all of the numerical columns to ints
+    for col in monthly_death_data.columns:
+        if 'County' not in col and "Last Updated" not in col:
+            monthly_death_data[col] = monthly_death_data[col].astype('int')
+
+    # Group by County name
+    monthly_death_data = monthly_death_data.groupby(by='County', as_index=False).sum()
+
+    monthly_death_data['fips'] = monthly_death_data['County'].map(rhode_island_fips)
+
+    # Reorder the columns
+    cols = monthly_death_data.columns.tolist()
+    cols = cols[-1:] + cols[:-1]
+    monthly_death_data = monthly_death_data[cols]
+
+    monthly_death_data = monthly_death_data.T
+    
+    monthly_death_data["Last Updated"] = last_updated_date
+
+
+    return monthly_death_data
+
+# This function cleans data for the 'Monthly_Deaths' table
+# RATE DATA
+def clean_death_rate_data():
+    
+    # Reads csv
+    monthly_death_data = pd.read_csv('COVID-19 Rhode Island Data - Monthly Mortality Rates by Municipality.tsv', sep='\t')
+    
+    last_updated_date = monthly_death_data["Unnamed: 1"][1]
+
+    # Drop unnecessary rows
+    monthly_death_data.drop(labels=[0, 1, 2, 3, 4, 6], axis=0, inplace=True)
+
+    # Transpose dataframe so the locations are rows, not columns
+    monthly_death_data = monthly_death_data.T
+
+    # Rename the columns so the dates are the column names
+    monthly_death_data.columns = monthly_death_data.iloc[0]
+
+    # Remove the row of data that contains dates (since they are now column names)
+    monthly_death_data = monthly_death_data.iloc[1: , :]
+
+    # Make Municipality Names In Title Case
+    monthly_death_data['Month of Death'] = monthly_death_data['Month of Death'].apply(lambda x: x.title())
+
+    monthly_death_data.rename(columns={'Month of Death': 'Municipality of residence'}, inplace=True)
+
+    # Creates a dataframe that only contains municipalities with their associated counties
+    counties = pd.DataFrame(list(zip(counties_municipalities.rhode_island_counties, 
+                                     counties_municipalities.rhode_island_municipalities)),
+                            columns=['County', 'Municipality of residence'])
+
+    # Merge dataframes 
+    monthly_death_data = monthly_death_data.merge(counties, on='Municipality of residence', how='right')
+
+    # Reorder columns
+    cols = monthly_death_data.columns.tolist()
+    cols = cols[-1:] + cols[:-1]
+    monthly_death_data = monthly_death_data[cols]
+
+    # Changes values of '<5' with 3
+    # Values of '<5' could be 1, 2, 3, 4, 5.  So assume the average number.
+    monthly_death_data = monthly_death_data.replace('*', 3)
+
+    # Drop Municipality column
+    monthly_death_data.drop(columns=["Municipality of residence"], axis=1, inplace=True)
+
+    # Convert all of the numerical columns to ints
+    for col in monthly_death_data.columns:
+        if 'County' not in col and "Last Updated" not in col:
+            monthly_death_data[col] = monthly_death_data[col].astype('int')
+
+    # Group by County name
+    monthly_death_data = monthly_death_data.groupby(by='County', as_index=False).sum()
+
+    monthly_death_data['fips'] = monthly_death_data['County'].map(rhode_island_fips)
+
+    # Reorder the columns
+    cols = monthly_death_data.columns.tolist()
+    cols = cols[-1:] + cols[:-1]
+    monthly_death_data = monthly_death_data[cols]
+
+    monthly_death_data = monthly_death_data.T
+    
+    monthly_death_data["Last Updated"] = last_updated_date
+
+
+    return monthly_death_data
+
+
+# This function cleans and inserts the data for the 'Monthly_Hospital' table
+# NUM DATA
+def clean_hospit_num_data():
+
+    # Reads csv
+    monthly_hospit_data = pd.read_csv('COVID-19 Rhode Island Data - Monthly Hospitalization Trends by Municipality.csv')
+    
+    last_updated_date = monthly_hospit_data["Unnamed: 1"][1]
+
+    # Drop unnecessary rows
+    monthly_hospit_data.drop(labels=[0, 1, 2, 3, 4], axis=0, inplace=True)
+
+    # Transpose dataframe so the locations are rows, not columns
+    monthly_hospit_data = monthly_hospit_data.T
+
+    # Rename the columns so the dates are the column names
+    monthly_hospit_data.columns = monthly_hospit_data.iloc[0]
+
+    # Remove the row of data that contains dates (since they are now column names)
+    monthly_hospit_data = monthly_hospit_data.iloc[1: , :]
+
+    # Make Municipality Names In Title Case
+    monthly_hospit_data['Month of Admission'] = monthly_hospit_data['Month of Admission'].apply(lambda x: x.title())
+
+    monthly_hospit_data.rename(columns={'Month of Admission': 'Municipality of residence'}, inplace=True)
+
+    # Creates a dataframe that only contains municipalities with their associated counties
+    counties = pd.DataFrame(list(zip(counties_municipalities.rhode_island_counties, 
+                                     counties_municipalities.rhode_island_municipalities)),
+                            columns=['County', 'Municipality of residence'])
+
+    # Merge dataframes 
+    monthly_hospit_data = monthly_hospit_data.merge(counties, on='Municipality of residence', how='right')
+
+    # Reorder columns
+    cols = monthly_hospit_data.columns.tolist()
+    cols = cols[-1:] + cols[:-1]
+    monthly_hospit_data = monthly_hospit_data[cols]
+
+    # Changes values of '<5' with 3
+    # Values of '<5' could be 1, 2, 3, 4, 5.  So assume the average number.
+    monthly_hospit_data = monthly_hospit_data.replace('<5', 3)
+
+    # Drop Municipality column
+    monthly_hospit_data.drop(columns=["Municipality of residence"], axis=1, inplace=True)
+
+    # Convert all of the numerical columns to ints
+    for col in monthly_hospit_data.columns:
+        if 'County' not in col and "Last Updated" not in col:
+            monthly_hospit_data[col] = monthly_hospit_data[col].astype('int')
+
+    # Group by County name
+    monthly_hospit_data = monthly_hospit_data.groupby(by='County', as_index=False).sum()
+
+    monthly_hospit_data['fips'] = monthly_hospit_data['County'].map(rhode_island_fips)
+
+    # Reorder the columns
+    cols = monthly_hospit_data.columns.tolist()
+    cols = cols[-1:] + cols[:-1]
+    monthly_hospit_data = monthly_hospit_data[cols]
+
+    monthly_hospit_data = monthly_hospit_data.T
+    
+    monthly_hospit_data["Last Updated"] = last_updated_date
+
+
+    return monthly_hospit_data
+
+# This function cleans and inserts the data for the 'Monthly_Hospital' table
+# RATE DATA
+def clean_hospit_rate_data():
+    
+    # Reads csv
+    monthly_hospit_data = pd.read_csv('COVID-19 Rhode Island Data - Monthly Hospitalization Rates by Municipality.tsv', sep='\t')
+    
+    last_updated_date = monthly_hospit_data["Unnamed: 1"][1]
+
+    # Drop unnecessary rows
+    monthly_hospit_data.drop(labels=[0, 1, 2, 3, 4, 6], axis=0, inplace=True)
+
+    # Transpose dataframe so the locations are rows, not columns
+    monthly_hospit_data = monthly_hospit_data.T
+
+    # Rename the columns so the dates are the column names
+    monthly_hospit_data.columns = monthly_hospit_data.iloc[0]
+
+    # Remove the row of data that contains dates (since they are now column names)
+    monthly_hospit_data = monthly_hospit_data.iloc[1: , :]
+
+    # Make Municipality Names In Title Case
+    monthly_hospit_data['Month of Admission'] = monthly_hospit_data['Month of Admission'].apply(lambda x: x.title())
+
+    monthly_hospit_data.rename(columns={'Month of Admission': 'Municipality of residence'}, inplace=True)
+
+    # Creates a dataframe that only contains municipalities with their associated counties
+    counties = pd.DataFrame(list(zip(counties_municipalities.rhode_island_counties, 
+                                     counties_municipalities.rhode_island_municipalities)),
+                            columns=['County', 'Municipality of residence'])
+
+    # Merge dataframes 
+    monthly_hospit_data = monthly_hospit_data.merge(counties, on='Municipality of residence', how='right')
+
+    # Reorder columns
+    cols = monthly_hospit_data.columns.tolist()
+    cols = cols[-1:] + cols[:-1]
+    monthly_hospit_data = monthly_hospit_data[cols]
+
+    # Changes values of '<5' with 3
+    # Values of '<5' could be 1, 2, 3, 4, 5.  So assume the average number.
+    monthly_hospit_data = monthly_hospit_data.replace('*', 3)
+
+    # Drop Municipality column
+    monthly_hospit_data.drop(columns=["Municipality of residence"], axis=1, inplace=True)
+
+    # Convert all of the numerical columns to ints
+    for col in monthly_hospit_data.columns:
+        if 'County' not in col and "Last Updated" not in col:
+            monthly_hospit_data[col] = monthly_hospit_data[col].astype('int')
+
+    # Group by County name
+    monthly_hospit_data = monthly_hospit_data.groupby(by='County', as_index=False).sum()
+
+    monthly_hospit_data['fips'] = monthly_hospit_data['County'].map(rhode_island_fips)
+
+    # Reorder the columns
+    cols = monthly_hospit_data.columns.tolist()
+    cols = cols[-1:] + cols[:-1]
+    monthly_hospit_data = monthly_hospit_data[cols]
+
+    monthly_hospit_data = monthly_hospit_data.T
+    
+    monthly_hospit_data["Last Updated"] = last_updated_date
+
+
+    return monthly_hospit_data
 
 def main():
     add_states()
@@ -645,6 +932,7 @@ def main():
 
     df_rate = clean_infection_rate_data()
     df_num = clean_infection_num_data()
+
 
     #Establish parameters for connection to database
     config = {
@@ -663,13 +951,13 @@ def main():
     cur = db_connection.cursor()
 
 
-    for i in range(len(df_rate.columns)):
+    for i in range(len(df_rate.columns) - 1):
         fips = df_rate[i][0]
         for j in range(2, len(df_rate) - 1):
             month, year = df_rate.index[j].split(" ")
 
-            query = f''' INSERT INTO Monthly_Cases VALUES ({int(fips)}, {int(month_to_num[month])}, {int(year)}, {int(df_num[i][j])}, {int(df_rate[i][j])});'''
-            cur.execute(query)
+            query = f''' INSERT INTO Monthly_Cases VALUES ({int(fips)}, {int(month_to_num[month])}, {int(year)}, {int(df_num[i][j])}, {int(df_rate[i][j])}, %s);'''
+            cur.execute(query, (str(df_rate['Last Updated'][0]), ))
             db_connection.commit()
 
     cur.close()
@@ -695,13 +983,73 @@ def main():
     #Establishes a cursor
     cur = db_connection.cursor()
 
-    for i in range(len(df_vax_rate.columns)):
+    for i in range(len(df_vax_rate.columns) - 1):
             fips = df_vax_rate[i][0]
             for j in range(2, len(df_vax_rate)):
                 month, year = df_vax_rate.index[j].split(" ")
 
-                query = f''' INSERT INTO Monthly_Vax_Nums VALUES ({int(fips)}, {int(month_to_num[month])}, {int(year)}, {int(df_vax_num[i][j])}, {int(df_vax_rate[i][j])});'''
-                cur.execute(query)
+                query = f''' INSERT INTO Monthly_Vax_Nums VALUES ({int(fips)}, {int(month_to_num[month])}, {int(year)}, {int(df_vax_num[i][j])}, {int(df_vax_rate[i][j])}, %s);'''
+                cur.execute(query, (str(df_vax_rate['Last Updated'][0]), ))
+                db_connection.commit()
+    cur.close()
+    db_connection.close()
+
+    df_death_rate = clean_death_rate_data()
+    df_death_num = clean_death_num_data()
+
+    #Establish parameters for connection to database
+    config = {
+        'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
+        'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
+        'host': 'localhost',
+        'port': 3306,
+        'database': 'RI_DATA',
+        'raise_on_warnings': True                    
+    }
+
+    #Establish connection to database
+    db_connection = mysql.connector.connect(**config)
+
+    #Establishes a cursor
+    cur = db_connection.cursor()
+
+    for i in range(len(df_death_rate.columns) - 1):
+            fips = df_death_rate[i][0]
+            for j in range(2, len(df_death_rate) - 1):
+                month, year = df_death_rate.index[j].split(" ")
+
+                query = f''' INSERT INTO Monthly_Deaths VALUES ({int(fips)}, {int(month_to_num[month])}, {int(year)}, {int(df_death_num[i][j])}, {int(df_death_rate[i][j])}, %s);'''
+                cur.execute(query, (str(df_death_num['Last Updated'][0]), ))
+                db_connection.commit()
+    cur.close()
+    db_connection.close()
+
+    df_hospit_rate = clean_hospit_rate_data()
+    df_hospit_num = clean_hospit_num_data()
+
+    #Establish parameters for connection to database
+    config = {
+        'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
+        'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
+        'host': 'localhost',
+        'port': 3306,
+        'database': 'RI_DATA',
+        'raise_on_warnings': True                    
+    }
+
+    #Establish connection to database
+    db_connection = mysql.connector.connect(**config)
+
+    #Establishes a cursor
+    cur = db_connection.cursor()
+
+    for i in range(len(df_hospit_rate.columns) - 1):
+            fips = df_hospit_rate[i][0]
+            for j in range(2, len(df_hospit_rate) - 1):
+                month, year = df_hospit_rate.index[j].split(" ")
+
+                query = f''' INSERT INTO Monthly_Hospital VALUES ({int(fips)}, {int(month_to_num[month])}, {int(year)}, {int(df_hospit_num[i][j])}, {int(df_hospit_rate[i][j])}, %s);'''
+                cur.execute(query, (str(df_hospit_num['Last Updated'][0]), ))
                 db_connection.commit()
     cur.close()
     db_connection.close()

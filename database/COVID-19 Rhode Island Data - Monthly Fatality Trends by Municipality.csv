@@ -1,0 +1,29 @@
+Number of Lab-Confirmed COVID-19 Associated Fatalities by Municipality of Residence and Month Excluding Congregate Setting Residents,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"Source: Rhode Island Department of Health (RIDOH), COVID-19 Fatality Database",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Last updated:,10/6/2021,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"NOTES: Small numbers are shown as <5 in line with RIDOH's Small Numbers Policy. Fatality counts include deaths among people with lab-confirmed COVID-19. Deaths are reported to RIDOH by the State Medical Examiner, Vital Records, Long-Term Care and Assisted Living Facilities, and all Rhode Island hospitals. We provide monthly data to help show more reliable trends over time. Fluctuations in these data may be due to a variety of factors, such as people’s movement across municipalities. Please use caution when interpreting these data as other factors can increase risk for severe illness and death.
+ 
+Residents in congregate care settings such as nursing homes, assisted living facilities, group homes, correctional facilities, and homeless shelters are intentionally excluded from these data. Because congregate care settings are not distributed equally across the state, and because spread within a congregate care setting does not correlate to spread within the community in which it resides, these cases have been excluded from this analysis in order to provide a more accurate picture of COVID-19 associated fatalities within the broader municipality. Out-of-state residents are also excluded from this analysis.",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Month of Death,BARRINGTON,BRISTOL,BURRILLVILLE,CENTRAL FALLS,CHARLESTOWN,COVENTRY,CRANSTON,CUMBERLAND,EAST GREENWICH,EAST PROVIDENCE,EXETER,FOSTER,GLOCESTER,HOPKINTON,JAMESTOWN,JOHNSTON,LINCOLN,LITTLE COMPTON,MIDDLETOWN,NARRAGANSETT,NEW SHOREHAM,NEWPORT,NORTH KINGSTOWN,NORTH PROVIDENCE,NORTH SMITHFIELD,PAWTUCKET,PORTSMOUTH,PROVIDENCE,RICHMOND,SCITUATE,SMITHFIELD,SOUTH KINGSTOWN,TIVERTON,WARREN,WARWICK,WEST GREENWICH,WEST WARWICK,WESTERLY,WOONSOCKET,Pending,TOTAL
+March 2020,0,0,0,0,0,0,<5,<5,0,0,0,0,0,0,0,0,0,<5,0,0,0,0,0,0,0,0,0,<5,0,0,<5,0,0,0,0,0,0,0,0,0,7
+April 2020,0,0,0,<5,0,<5,<5,<5,0,<5,0,0,0,<5,0,<5,0,0,0,0,0,<5,0,<5,0,5,0,29,0,<5,0,<5,<5,0,8,0,<5,<5,<5,0,70
+May 2020,0,<5,<5,<5,0,0,<5,<5,0,<5,<5,0,0,0,0,<5,<5,0,<5,0,0,0,<5,5,<5,<5,0,31,0,0,<5,0,<5,<5,0,0,<5,0,7,0,70
+June 2020,0,<5,0,<5,0,0,5,0,0,<5,0,0,0,0,0,6,0,0,0,0,0,0,0,<5,<5,5,0,16,0,0,0,0,0,<5,<5,0,0,0,<5,0,45
+July 2020,0,0,<5,<5,<5,0,0,0,0,0,0,0,0,0,0,0,0,0,<5,0,0,0,0,0,0,0,0,8,0,0,<5,0,0,0,<5,0,0,0,<5,0,20
+August 2020,0,<5,<5,0,0,0,<5,0,0,0,<5,0,0,0,0,0,<5,0,0,0,0,0,<5,<5,<5,0,0,6,0,0,0,0,0,0,<5,0,0,0,<5,0,18
+September 2020,0,0,0,<5,0,0,<5,<5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,<5,0,<5,0,<5,0,0,0,0,<5,0,<5,0,0,<5,<5,0,13
+October 2020,0,0,<5,0,0,<5,5,<5,0,0,0,0,0,0,0,<5,0,0,0,0,0,0,<5,<5,0,<5,0,10,0,0,0,0,0,0,<5,0,0,0,<5,0,33
+November 2020,<5,0,0,<5,0,<5,7,<5,0,6,0,<5,<5,0,0,<5,<5,0,0,<5,0,0,<5,5,0,7,0,22,0,<5,<5,0,<5,<5,8,0,<5,<5,6,0,92
+December 2020,<5,<5,5,<5,0,7,21,8,<5,15,<5,<5,<5,0,0,7,<5,0,0,<5,0,<5,<5,10,<5,15,0,49,0,0,6,<5,<5,0,13,0,11,5,22,0,226
+January 2021,<5,<5,<5,<5,<5,<5,17,11,<5,12,<5,<5,<5,0,<5,5,6,0,<5,<5,0,<5,5,7,<5,17,<5,43,0,<5,9,<5,<5,<5,15,<5,<5,7,12,0,211
+February 2021,0,<5,0,0,0,<5,<5,0,<5,<5,0,<5,<5,0,0,<5,<5,<5,0,<5,0,<5,0,7,<5,7,<5,21,<5,<5,<5,<5,<5,<5,7,0,<5,<5,10,0,100
+March 2021,0,0,<5,0,0,<5,6,<5,<5,<5,0,<5,0,0,0,<5,0,0,0,<5,0,<5,<5,0,0,<5,0,16,0,<5,<5,<5,<5,0,<5,0,<5,0,8,0,61
+April 2021,0,0,0,0,0,0,<5,<5,<5,0,0,0,0,0,0,0,0,0,0,0,0,0,<5,<5,<5,5,<5,9,0,0,<5,0,0,<5,<5,<5,<5,0,5,0,41
+May 2021,0,<5,0,<5,0,<5,<5,0,0,<5,0,0,0,0,0,0,0,0,0,0,0,0,<5,0,<5,<5,0,11,0,0,<5,<5,0,0,<5,0,<5,0,<5,0,32
+June 2021,0,<5,0,0,0,<5,<5,<5,<5,<5,0,0,0,0,0,<5,0,0,<5,0,0,0,0,<5,0,0,0,<5,0,0,0,0,0,0,<5,0,0,0,0,0,15
+July 2021,0,0,0,<5,0,0,<5,0,0,<5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,<5,0,0,0,0,0,0,0,0,0,0,0,0,5
+August 2021,0,<5,0,0,0,0,<5,<5,<5,<5,0,0,0,<5,0,<5,0,0,0,0,0,<5,0,<5,0,<5,0,6,0,0,0,0,0,0,<5,0,<5,0,0,0,28
+September 2021,<5,0,<5,0,0,<5,5,0,0,<5,0,0,0,0,0,<5,<5,0,0,0,0,<5,<5,0,<5,<5,<5,8,<5,<5,<5,0,0,<5,7,0,0,<5,6,0,49
+Total,7,15,17,22,<5,25,96,38,8,53,<5,6,7,<5,<5,34,19,<5,5,7,0,9,17,50,17,82,7,292,<5,6,30,11,11,10,80,<5,28,18,91,0,1136

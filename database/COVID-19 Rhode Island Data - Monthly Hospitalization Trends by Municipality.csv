@@ -1,0 +1,29 @@
+Number of COVID-19 Associated Hospitalizations by Municipality of Residence and Month Excluding Congregate Setting Residents,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"Source: Rhode Island Department of Health (RIDOH), Hospital Incident Reporting System data; RIDOH, SalesForce COVID-19 case investigation data",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Last updated:,10/6/2021,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"NOTES: Small numbers are shown as <5 in line with RIDOH's Small Numbers Policy. We provide monthly data to help show more reliable trends over time. Fluctuations in these data may be due to a variety of factors, such as people’s movement across municipalities. Please use caution when interpreting these data as other factors can increase risk for illness.
+ 
+Residents in congregate care settings such as nursing homes, assisted living facilities, group homes, correctional facilities, and homeless shelters are intentionally excluded from these data. Because congregate care settings are not distributed equally across the state, and because spread within a congregate care setting does not correlate to spread within the community in which it resides, these cases have been excluded from this analysis in order to provide a more accurate picture of COVID-19 associated hospitalizations within the broader municipality. Out-of-state residents are also excluded from this analysis.",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Month of Admission,BARRINGTON,BRISTOL,BURRILLVILLE,CENTRAL FALLS,CHARLESTOWN,COVENTRY,CRANSTON,CUMBERLAND,EAST GREENWICH,EAST PROVIDENCE,EXETER,FOSTER,GLOCESTER,HOPKINTON,JAMESTOWN,JOHNSTON,LINCOLN,LITTLE COMPTON,MIDDLETOWN,NARRAGANSETT,NEW SHOREHAM,NEWPORT,NORTH KINGSTOWN,NORTH PROVIDENCE,NORTH SMITHFIELD,PAWTUCKET,PORTSMOUTH,PROVIDENCE,RICHMOND,SCITUATE,SMITHFIELD,SOUTH KINGSTOWN,TIVERTON,WARREN,WARWICK,WEST GREENWICH,WEST WARWICK,WESTERLY,WOONSOCKET,Pending,TOTAL
+March 2020,<5,<5,<5,<5,0,<5,15,<5,0,6,0,0,0,0,<5,<5,<5,0,<5,0,0,<5,<5,5,<5,11,<5,33,0,<5,<5,<5,0,0,<5,0,<5,<5,<5,0,114
+April 2020,0,5,<5,39,0,<5,40,11,0,15,0,0,0,<5,<5,15,5,0,<5,<5,0,0,<5,29,<5,61,0,276,<5,0,8,7,0,<5,21,0,<5,<5,20,<5,586
+May 2020,<5,<5,<5,37,0,<5,28,8,0,<5,<5,<5,<5,0,<5,17,5,0,<5,<5,0,<5,<5,19,6,47,0,172,<5,<5,<5,6,<5,<5,19,0,6,0,21,<5,432
+June 2020,0,<5,0,10,<5,0,10,<5,<5,5,0,0,0,0,0,<5,<5,0,0,0,0,<5,0,<5,<5,16,0,81,0,0,<5,0,0,<5,7,0,5,<5,16,0,179
+July 2020,<5,0,<5,<5,<5,<5,13,<5,<5,6,0,0,0,0,0,0,<5,0,<5,<5,0,<5,<5,<5,<5,14,0,59,0,<5,7,0,0,0,11,0,10,<5,18,0,167
+August 2020,0,<5,<5,11,0,<5,17,<5,<5,<5,<5,0,0,0,0,<5,<5,0,0,<5,0,<5,<5,13,0,23,0,95,0,<5,<5,<5,<5,<5,13,0,5,<5,10,<5,225
+September 2020,0,0,<5,<5,<5,<5,16,7,<5,<5,0,0,<5,0,0,13,<5,0,0,<5,0,<5,<5,6,<5,19,0,48,<5,<5,<5,<5,0,0,7,0,<5,<5,7,0,160
+October 2020,<5,<5,<5,18,<5,13,42,14,5,18,<5,0,5,<5,0,16,6,0,<5,<5,0,<5,6,18,<5,49,<5,149,<5,<5,<5,5,0,<5,29,<5,9,<5,17,0,458
+November 2020,10,16,17,19,<5,28,115,30,6,54,<5,<5,7,8,<5,38,34,0,5,12,0,11,22,40,12,106,<5,291,<5,13,14,12,<5,6,81,6,27,17,43,<5,1120
+December 2020,8,13,11,39,8,39,144,37,14,85,8,5,<5,7,<5,69,29,0,10,6,0,12,26,60,15,124,8,318,<5,14,30,25,5,11,121,<5,39,22,68,7,1448
+January 2021,9,29,10,34,7,49,109,47,16,69,0,7,5,12,<5,50,21,<5,16,10,0,21,20,41,14,117,7,291,<5,9,26,16,<5,12,88,7,35,20,71,6,1308
+February 2021,12,9,6,12,<5,22,64,6,10,34,<5,5,<5,<5,<5,27,6,0,<5,5,0,<5,8,30,7,45,<5,137,0,6,10,5,<5,7,44,<5,25,14,22,<5,601
+March 2021,<5,15,11,8,<5,13,42,10,<5,25,5,<5,<5,<5,0,18,8,0,<5,<5,0,10,11,25,6,50,<5,133,<5,9,9,7,<5,<5,36,<5,15,8,29,<5,533
+April 2021,6,8,<5,14,<5,15,41,10,<5,28,<5,<5,7,<5,<5,16,12,0,6,<5,0,11,<5,20,5,48,9,165,<5,<5,<5,7,<5,6,37,<5,18,6,25,<5,561
+May 2021,<5,<5,<5,6,0,6,16,6,<5,19,0,<5,0,<5,0,5,5,0,<5,<5,0,<5,7,8,5,26,0,70,0,<5,<5,0,<5,<5,18,0,<5,<5,17,0,252
+June 2021,<5,<5,0,<5,0,<5,10,<5,<5,5,0,0,0,0,0,<5,0,0,<5,0,0,5,0,<5,0,<5,0,28,0,<5,0,0,0,0,<5,0,<5,0,<5,0,82
+July 2021,<5,0,<5,8,0,9,10,<5,<5,<5,<5,0,<5,0,0,5,<5,0,0,0,0,<5,<5,<5,0,<5,<5,23,<5,<5,0,0,0,0,7,0,<5,<5,<5,0,95
+August 2021,<5,<5,9,8,<5,10,35,11,<5,23,0,<5,<5,7,0,14,6,0,6,<5,0,22,<5,14,5,39,<5,83,6,5,11,8,<5,<5,37,<5,12,14,21,5,443
+September 2021,6,<5,7,7,<5,18,47,12,<5,16,<5,<5,<5,<5,0,19,5,0,<5,<5,0,7,6,16,5,37,7,94,<5,<5,6,6,<5,<5,42,<5,9,10,29,<5,443
+Total,71,114,97,283,37,240,814,225,79,423,26,32,39,54,11,332,155,<5,63,52,0,126,133,355,94,837,41,2546,34,70,142,109,21,64,624,28,232,128,443,33,9208
