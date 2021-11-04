@@ -11,69 +11,64 @@ import Paper from '@mui/material/Paper';
 export const Informative = () => {
     const [loading, setLoading] = useState(false);
     const [main] = useState([]);
-    const  getData = () => {
-
-        //fips 44001
-        fetch('http://localhost:5000/county/44001', {
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(response=>response.json())
-        .then(data => {
-            main[0] = {data};
-        });
-
-        //fips 44003
-        fetch('http://localhost:5000/county/44003', {
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(response=>response.json())
-        .then(data => {
-            main[1] = {data};
-        });
-
-        //fips 44005
-        fetch('http://localhost:5000/county/44005', {
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(response=>response.json())
-        .then(data => {
-            main[2] = {data}
-        });
-
-        //fips 44007
-        fetch('http://localhost:5000/county/44007', {
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(response=>response.json())
-        .then(data => {
-            main[3] = {data}
-        });
-
-        //fips 44009
-        fetch('http://localhost:5000/county/44009', {
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(response=>response.json())
-        .then(data => {
-            main[4] = {data}
-            setLoading(true);
-        });
-        
-    }
 
     useEffect(() => {
-        getData();
-    },[])
+            //fips 44001
+            fetch('http://localhost:5000/county/44001', {
+                headers : { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(response=>response.json())
+            .then(data => {
+                main[0] = {data};
+            });
+    
+            //fips 44003
+            fetch('http://localhost:5000/county/44003', {
+                headers : { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(response=>response.json())
+            .then(data => {
+                main[1] = {data};
+            });
+    
+            //fips 44005
+            fetch('http://localhost:5000/county/44005', {
+                headers : { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(response=>response.json())
+            .then(data => {
+                main[2] = {data}
+            });
+    
+            //fips 44007
+            fetch('http://localhost:5000/county/44007', {
+                headers : { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(response=>response.json())
+            .then(data => {
+                main[3] = {data}
+            });
+    
+            //fips 44009
+            fetch('http://localhost:5000/county/44009', {
+                headers : { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(response=>response.json())
+            .then(data => {
+                main[4] = {data}
+                setLoading(true);
+            });
+    },[main])
 
     console.log(main)
     return (
@@ -103,7 +98,7 @@ export const Informative = () => {
                                 <TableCell>
                                     {county.data.fips}
                                 </TableCell>
-                                <TableCell align="right">{county.data.state_id == 44 ? <>Delaware</> : county.data.state_id}</TableCell>
+                                <TableCell align="right">{county.data.state_id === 44 ? <>Rhode Island</> : county.data.state_id}</TableCell>
                                 <TableCell align="right">{county.data.county_name}</TableCell>
                                 <TableCell align="right">{county.data.total_cases}</TableCell>
                                 <TableCell align="right">{county.data.total_deaths}</TableCell>

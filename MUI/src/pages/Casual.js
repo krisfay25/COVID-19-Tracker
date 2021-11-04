@@ -3,6 +3,7 @@ import { MapContainer, TileLayer } from 'react-leaflet'
 import './leaflet/Casual.css';
 import './leaflet/counties_geoJSON.js';
 import TemporaryDrawer from '../components/TemporaryDrawer';
+import { CustomPopup } from '../components/Custom_Popup';
       
 
 function Casual(props) {
