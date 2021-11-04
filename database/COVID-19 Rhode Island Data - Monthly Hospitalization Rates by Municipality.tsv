@@ -1,0 +1,28 @@
+Monthly Rate of COVID-19 Associated Hospitalizations per 100,000 Population by Municipality of Residence Excluding Congregate Setting Residents																																								
+Source: Rhode Island Department of Health (RIDOH), Hospital Incident Reporting System data; RIDOH, SalesForce COVID-19 case investigation data; US Census Bureau, 2018 American Community Survey 5-year estimates																																								
+Last updated:	10/6/2021																																							
+																																								
+NOTES: Calculations based on small numbers (<5) are shown as *, in line with RIDOH's Small Numbers Policy. We provide monthly data to help show more reliable trends over time. Fluctuations in these data may be due to a variety of factors, such as people’s movement across municipalities. Please use caution when interpreting these data as other factors can increase risk for illness.   Residents in congregate care settings such as nursing homes, assisted living facilities, group homes, correctional facilities, and homeless shelters are intentionally excluded from these data. Because congregate care settings are not distributed equally across the state, and because spread within a congregate care setting does not correlate to spread within the community in which it resides, these cases have been excluded from this analysis in order to provide a more accurate picture of COVID-19 associated hospitalizations within the broader municipality. Out-of-state residents are also excluded from this analysis.																																								
+																																								
+Month of Admission	BARRINGTON	BRISTOL	BURRILLVILLE	CENTRAL FALLS	CHARLESTOWN	COVENTRY	CRANSTON	CUMBERLAND	EAST GREENWICH	EAST PROVIDENCE	EXETER	FOSTER	GLOCESTER	HOPKINTON	JAMESTOWN	JOHNSTON	LINCOLN	LITTLE COMPTON	MIDDLETOWN	NARRAGANSETT	NEW SHOREHAM	NEWPORT	NORTH KINGSTOWN	NORTH PROVIDENCE	NORTH SMITHFIELD	PAWTUCKET	PORTSMOUTH	PROVIDENCE	RICHMOND	SCITUATE	SMITHFIELD	SOUTH KINGSTOWN	TIVERTON	WARREN	WARWICK	WEST GREENWICH	WEST WARWICK	WESTERLY	WOONSOCKET	TOTAL
+Population	16,178	22,234	16,453	19,382	7,780	34,575	81,196	34,652	13,073	47,449	6,782	4,689	10,062	8,111	5,496	29,235	21,644	3,505	16,078	15,550	827	24,762	26,207	32,459	12,349	71,756	17,418	179,435	7,626	10,603	21,630	30,735	15,816	10,488	81,079	6,179	28,955	22,624	41,539	1,056,611
+March 2020	*	*	*	*	0	*	18	*	0	13	0	0	0	0	*	*	*	0	*	0	0	*	*	15	*	15	*	18	0	*	*	*	0	0	*	0	*	*	*	11
+April 2020	0	22	*	201	0	*	49	32	0	32	0	0	0	*	*	51	23	0	*	*	0	0	*	89	*	85	0	154	*	0	37	23	0	*	26	0	*	*	48	55
+May 2020	*	*	*	191	0	*	34	23	0	*	*	*	*	0	*	58	23	0	*	*	0	*	*	59	49	65	0	96	*	*	*	20	*	*	23	0	21	0	51	41
+June 2020	0	*	0	52	*	0	12	*	*	11	0	0	0	0	0	*	*	0	0	0	0	*	0	*	*	22	0	45	0	0	*	0	0	*	9	0	17	*	39	17
+July 2020	*	0	*	*	*	*	16	*	*	13	0	0	0	0	0	0	*	0	*	*	0	*	*	*	*	20	0	33	0	*	32	0	0	0	14	0	35	*	43	16
+August 2020	0	*	*	57	0	*	21	*	*	*	*	0	0	0	0	*	*	0	0	*	0	*	*	40	0	32	0	53	0	*	*	*	*	*	16	0	17	*	24	21
+September 2020	0	0	*	*	*	*	20	20	*	*	0	0	*	0	0	44	*	0	0	*	0	*	*	18	*	26	0	27	*	*	*	*	0	0	9	0	*	*	17	15
+October 2020	*	*	*	93	*	38	52	40	38	38	*	0	50	*	0	55	28	0	*	*	0	*	23	55	*	68	*	83	*	*	*	16	0	*	36	*	31	*	41	43
+November 2020	62	72	103	98	*	81	142	87	46	114	*	*	70	99	*	130	157	0	31	77	0	44	84	123	97	148	*	162	*	123	65	39	*	57	100	97	93	75	104	106
+December 2020	49	58	67	201	103	113	177	107	107	179	118	107	*	86	*	236	134	0	62	39	0	48	99	185	121	173	46	177	*	132	139	81	32	105	149	*	135	97	164	137
+January 2021	56	130	61	175	90	142	134	136	122	145	0	149	50	148	*	171	97	*	100	64	0	85	76	126	113	163	40	162	*	85	120	52	*	114	109	113	121	88	171	124
+February 2021	74	40	36	62	*	64	79	17	76	72	*	107	*	*	*	92	28	0	*	32	0	*	31	92	57	63	*	76	0	57	46	16	*	67	54	*	86	62	53	57
+March 2021	*	67	67	41	*	38	52	29	*	53	74	*	*	*	0	62	37	0	*	*	0	40	42	77	49	70	*	74	*	85	42	23	*	*	44	*	52	35	70	50
+April 2021	37	36	*	72	*	43	50	29	*	59	*	*	70	*	*	55	55	0	37	*	0	44	*	62	40	67	52	92	*	*	*	23	*	57	46	*	62	27	60	53
+May 2021	*	*	*	31	0	17	20	17	*	40	0	*	0	*	0	17	23	0	*	*	0	*	27	25	40	36	0	39	0	*	*	0	*	*	22	0	*	*	41	24
+June 2021	*	*	0	*	0	*	12	*	*	11	0	0	0	0	0	*	0	0	*	0	0	20	0	*	0	*	0	16	0	*	0	0	0	0	*	0	*	0	*	8
+July 2021	*	0	*	41	0	26	12	*	*	*	*	0	*	0	0	17	*	0	0	0	0	*	*	*	0	*	*	13	*	*	0	0	0	0	9	0	*	*	*	9
+August 2021	*	*	55	41	*	29	43	32	*	48	0	*	*	86	0	48	28	0	37	*	0	89	*	43	40	54	*	46	79	47	51	26	*	*	46	*	41	62	51	42
+September 2021	37	*	43	36	*	52	58	35	*	34	*	*	*	*	0	65	23	0	*	*	0	28	23	49	40	52	40	52	*	*	28	20	*	*	52	*	31	44	70	42
+Total	439	513	590	1460	476	694	1003	649	604	891	383	682	388	666	200	1136	716	*	392	334	0	509	507	1094	761	1166	235	1419	446	660	656	355	133	610	770	453	801	566	1066	871
