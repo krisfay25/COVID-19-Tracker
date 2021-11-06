@@ -20,4 +20,5 @@ The database, along with the pre-made tables should be populated with data
 4. Run the flask server with `pipenv run flask run`
 
 ### Steps to Run Leaflet React
-1. In the MUI folder, run the command `npm install react-leaflet`
+1. In the MUI folder, run the command `npm install`
+2. Run the application with `npm start`
