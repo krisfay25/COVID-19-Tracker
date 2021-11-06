@@ -24,6 +24,9 @@ monthly_headers = {
     'monthly_vax_nums': ['fips', 'vaxxed_month', 'vaxxed_year', 'num_vaxxed', 'rate_vaxxed', 'last_updated'],
     'monthly_hospital': ['fips', 'hospit_month', 'hospit_year', 'num_hospit', 'rate_hospit', 'last_updated']
 }
+# the columns to return for the all monthly data query
+# the query is very particular so we are not generating it in python
+all_monthly_headers = ['fips', 'infection_month', 'infection_year', 'num_cases', 'rate_cases', 'num_deaths', 'rate_deaths', 'num_hospit', 'rate_hospit', 'num_vaxxed', 'rate_vaxxed']
 
 # Connect to the database when needed
 def get_db():
@@ -102,6 +105,50 @@ def county_monthly_data(fips, table):
 
     # get the data from the specified table for the county
     cur.execute(f'SELECT {",".join(headers)} FROM Monthly_{table} WHERE fips="{fips}"')
+    result = cur.fetchall()
+
+    # error if the fips code returned nothing
+    if not result:
+        cur.close()
+        return f'County with fips code {fips} not in database', 400
+
+    # zip the headers with each month, to make the headers the keys
+    dictionary = [dict(zip(headers, month)) for month in result]
+
+    cur.close()
+
+    return jsonify(dictionary)
+
+# All monthly data for a county
+# example: /county/44001/monthly
+@app.route('/county/<fips>/monthly', methods=['GET'])
+def county_all_monthly_data(fips):
+    cur = get_db().cursor()
+
+    headers = all_monthly_headers
+
+    # get the data from all tables for the county
+    cur.execute(f'''
+SELECT Monthly_cases.fips AS "fips", infection_month AS "Month", infection_year AS "Year", num_cases, rate_cases, num_deaths, rate_deaths, num_hospit, rate_hospit, num_vaxxed, rate_vaxxed,  
+
+Monthly_cases.last_updated AS "Case/Hospit/Deaths Last Updated", Monthly_Vax_Nums.last_updated AS "Vax Last Updated" 
+
+FROM Monthly_Cases 
+
+INNER JOIN Monthly_Deaths
+
+	ON Monthly_Cases.fips = Monthly_Deaths.fips AND Monthly_Cases.infection_month = Monthly_Deaths.death_month AND Monthly_Cases.infection_year = Monthly_Deaths.death_year
+
+INNER JOIN Monthly_Hospital
+
+	ON Monthly_Deaths.fips = Monthly_Hospital.fips AND Monthly_Deaths.death_month = Monthly_Hospital.hospit_month AND Monthly_Deaths.death_year = Monthly_Hospital.hospit_year 
+
+LEFT JOIN Monthly_Vax_Nums 
+
+	ON Monthly_Vax_Nums.fips = Monthly_Hospital.fips AND Monthly_Vax_Nums.vaxxed_month = Monthly_Hospital.hospit_month AND Monthly_Vax_Nums.vaxxed_year = Monthly_Hospital.hospit_year
+
+    WHERE Monthly_cases.fips = 44001
+    ''')
     result = cur.fetchall()
 
     # error if the fips code returned nothing
