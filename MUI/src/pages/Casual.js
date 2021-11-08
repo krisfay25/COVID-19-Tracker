@@ -24,6 +24,7 @@ const RetrieveData = () => {
 };
 
 function Casual(props) {
+
   return (
 
     <div>
