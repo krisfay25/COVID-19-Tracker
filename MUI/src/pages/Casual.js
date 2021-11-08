@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { MapContainer, TileLayer, Polygon, GeoJSON } from 'react-leaflet'
 import './leaflet/Casual.css';
 import TemporaryDrawer from '../components/TemporaryDrawer';
+import { CustomPopup } from '../components/Custom_Popup';
 import axios from 'axios';
 
 //API call to retrive geoJSON data
