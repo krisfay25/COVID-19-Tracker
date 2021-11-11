@@ -42,7 +42,7 @@ def close_database(error):
     if db is not None:
         db.close()
 
-# Stats keyed by county fips
+# A stat for all counties, in a list
 # example: /all/county_name
 @app.route('/all/<stat>', methods=['GET'])
 def all_data(stat):
