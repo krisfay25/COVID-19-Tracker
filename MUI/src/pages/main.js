@@ -52,7 +52,7 @@ function Main(props) {
                   <br />
                   <Typography variant='h5' align="center" color="textSecondary" gutterBottom>
                   Casual: 
-                  <br/>This selection allows visual aids in the form of maps and give a 
+                  <br/>This selection allows visual aids in the form of maps and gives a 
                   <br/>county by county breakdown of COVID cases and vaccination rates.
                   </Typography>
                 </div>
