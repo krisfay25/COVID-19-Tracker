@@ -6,10 +6,11 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Switch from '@mui/material/Switch';
 import DoubleButton from './DoubleButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import './TemporaryDrawer.css';
+import { GraphSwitch } from './GraphSwitch';
+import { MapSwitch } from './MapSwitch';
 
 export default function TemporaryDrawer() {
   const [state, setState] = React.useState({
@@ -29,7 +30,6 @@ export default function TemporaryDrawer() {
     <Box
       sx={{ width: 400 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
@@ -38,9 +38,8 @@ export default function TemporaryDrawer() {
             <ListItemText primary={text} />
             <ListItemIcon>
               {index === 0 ?  <DoubleButton/>
-                : <Switch/>}
+                : (index === 1 ? <GraphSwitch/> : <MapSwitch/>)}
             </ListItemIcon>
-            
           </ListItem>
         ))}
       </List>
