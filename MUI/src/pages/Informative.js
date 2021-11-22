@@ -15,9 +15,12 @@ export const Informative = () => {
                 .then(response => response.json())
         )).then(data => {
             // Replace state id with state name
+            var id_val = 0;
+
             for (let county of data) {
                 if (county.state_id === 44) {
                     county.state = 'Rhode Island';
+                    county.id = id_val++;
                 }
             }
             setMain(data);
