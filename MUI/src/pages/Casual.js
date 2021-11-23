@@ -6,11 +6,17 @@ import TemporaryDrawer from '../components/TemporaryDrawer';
 import axios from 'axios';
 
 function Casual(props) {
+  // holds the data fetched for the backend
   const [data, setData] = React.useState();
+  // boolean for when the data has been loaded and populated
   const [loading, setLoading] = React.useState(false);
+  // boolean for when polygonCoor has been populated and is ready to render
   const [ready, setReady] = React.useState(false);
+  // this is where all of the values for the polygons will be kept
   const [polygonCoor, setPolygon] = React.useState();
 
+  // originally, the coordinates are in the wrong format. 
+  // makes coordinates [x,y] => [y,x]
   const swapCoor = () => {
     if (!polygonCoor){
       return false;
@@ -51,6 +57,8 @@ function Casual(props) {
     return true;
   }
 
+  // sets the polygonCoor with the data fetched from the backend. also sets id and color
+  // new parameters can be added here
   const setCoor = async () => {
     const response = await 
     setPolygon([{"id": "001", "color": "red", "coordinates": data[0].geometry.coordinates},
@@ -59,12 +67,18 @@ function Casual(props) {
       {"id": "007", "color": "yellow", "coordinates": data[3].geometry.coordinates},
       {"id": "009", "color": "purple", "coordinates": data[4].geometry.coordinates},
     ]);
+
+    // TODO :run into a problem here. when swapCoor is called, polygonCoor 
+    // should be populated but isn't, which throws an error. I tried adding a loop to 
+    // keep running until polygonCoor has something in it, but it doesnt happen and 
+    // its an infinite loop
     var temp = false;
     while(!temp){
-      swapCoor();
+      temp = swapCoor();
     }
   }
   
+  // gets the data from the backend
   const getData = async () => {
     const response = await axios.get("http://localhost:5000/all/geo_json_data");
     setData(response.data);
@@ -76,7 +90,8 @@ function Casual(props) {
   }
 
   useEffect(() => {
-
+    
+    // if the data is loaded, populate polygonCoor and set ready into true
     if(loading){
       setCoor();
       setReady(true);
@@ -99,8 +114,7 @@ function Casual(props) {
             {coor.id}
           </Popup>
         </Polygon>
-      )
-      )
+      ))
       :
       <></>}
       </MapContainer>
