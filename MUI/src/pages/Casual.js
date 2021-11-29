@@ -11,9 +11,6 @@ function Casual(props) {
   // this is where all of the values for the polygons will be kept
   const [polygonCoor, setPolygonCoor] = useState([]);
 
-  var polyData = [];
-
-
   // originally, the coordinates are in the wrong format. 
   // makes coordinates [x,y] => [y,x]
   const swapCoor = useCallback((data) => {
@@ -46,18 +43,18 @@ function Casual(props) {
   // new parameters can be added here
   const setCoor = useCallback((coor, data) => {
 
-    setPolygonCoor([
-      { "id": "44001", "color": "#ffffff", "coordinates": coor[0].geometry.coordinates, "cases": "" },
-      { "id": "44003", "color": "#ffffff", "coordinates": coor[1].geometry.coordinates, "cases": "" },
-      { "id": "44005", "color": "#ffffff", "coordinates": coor[2].geometry.coordinates, "cases": "" },
-      { "id": "44007", "color": "#ffffff", "coordinates": coor[3].geometry.coordinates, "cases": "" },
-      { "id": "44009", "color": "#ffffff", "coordinates": coor[4].geometry.coordinates, "cases": "" },
-    ]);
+    let polygons = [
+      { "id": 44001, "color": "#ffffff", "coordinates": coor[0].geometry.coordinates, "cases": "" },
+      { "id": 44003, "color": "#ffffff", "coordinates": coor[1].geometry.coordinates, "cases": "" },
+      { "id": 44005, "color": "#ffffff", "coordinates": coor[2].geometry.coordinates, "cases": "" },
+      { "id": 44007, "color": "#ffffff", "coordinates": coor[3].geometry.coordinates, "cases": "" },
+      { "id": 44009, "color": "#ffffff", "coordinates": coor[4].geometry.coordinates, "cases": "" },
+    ];
 
     for(let currData of data){
-      for(let currPoly of polygonCoor){
-        if (currData.data.fips == currPoly.id){
-          currPoly.cases = currData.data.total_cases;
+      for(let currPoly of polygons){
+        if (currData.fips === currPoly.id){
+          currPoly.cases = currData.total_cases;
           switch(true){
             case (currPoly.cases >= 40000):
               currPoly.color = "#990000";
@@ -78,7 +75,8 @@ function Casual(props) {
         }
       }
     }
-    console.log(polygonCoor);
+    console.log(polygons);
+    setPolygonCoor(polygons);
   }, []);
 
   useEffect(() => {
@@ -86,64 +84,20 @@ function Casual(props) {
       const responses = await axios.get("http://localhost:5000/all/geo_json_data");
       swapCoor(responses.data);
 
-      //fips 44001
-      fetch('http://localhost:5000/county/44001', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          polyData[0] = { data };
-        });
-
-      //fips 44003
-      fetch('http://localhost:5000/county/44003', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          polyData[1] = { data };
-        });
-
-      //fips 44005
-      fetch('http://localhost:5000/county/44005', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          polyData[2] = { data }
-        });
-
-      //fips 44007
-      fetch('http://localhost:5000/county/44007', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          polyData[3] = { data }
-        });
-
-      //fips 44009
-      fetch('http://localhost:5000/county/44009', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          polyData[4] = { data }
-          setReady(true);
-        }).then( data => {
-          setCoor(responses.data, polyData);
-        });
-      
+      // Load county data
+      const counties = [44001, 44003, 44005, 44007, 44009]
+      Promise.all(counties.map(fips =>
+        fetch(`http://localhost:5000/county/${fips}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        })
+          .then(response => response.json())
+      )).then(data => {
+        setCoor(responses.data, data);
+        setReady(true);
+      });
     };
     
     getCoor();
