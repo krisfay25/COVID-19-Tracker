@@ -8,8 +8,8 @@ CORS(app)
 
 # Establish parameters for connection to database
 config = {
-    'user': '', # USE YOUR USERNAME, NEVER PUSH THIS
-    'password': '', # USE YOUR PASSWORD, NEVER PUSH THIS
+    'user': 'root', # USE YOUR USERNAME, NEVER PUSH THIS
+    'password': 'Shaka1216', # USE YOUR PASSWORD, NEVER PUSH THIS
     'host': 'localhost',
     'port': 3306,
     'database': 'RI_DATA',
