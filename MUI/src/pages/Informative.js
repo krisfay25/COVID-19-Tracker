@@ -80,7 +80,7 @@ export const Informative = () => {
             </div>}
             <h2>Monthly Data</h2>
             <Select value={currentYear} onChange={updateCurrentYear}>
-                {years.map(year => <MenuItem value={year}>{year}</MenuItem>)}
+                {years.map(year => <MenuItem key={year} value={year}>{year}</MenuItem>)}
             </Select>
             <Card>
                 <CardContent>

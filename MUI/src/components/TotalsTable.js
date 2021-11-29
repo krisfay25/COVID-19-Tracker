@@ -1,5 +1,4 @@
 import {DataGrid, GridRowsProp, GridColDef, GridToolbar} from '@mui/x-data-grid';
-import { Toolbar } from '@mui/material';
 
 export const TotalsTable = ({data}) => {
 

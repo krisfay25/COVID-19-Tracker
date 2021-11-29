@@ -41,10 +41,10 @@ const Legend = ({itemList}) => {
         }}>
         <List>
             {legendList.map((item)=>(
-                <ListItem style={{
+                <ListItem key={item.title} style={{
                     backgroundColor: item.color,
                 }}>
-                <div key={item.title} style={{
+                <div style={{
                     backgroundColor: item.color,
                 }}>
                 {item.title}

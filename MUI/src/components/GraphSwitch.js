@@ -1,7 +1,7 @@
 import React , {useState} from 'react';
 import Switch from '@mui/material/Switch';
 
-export const GraphSwitch = ({ }) => {
+export const GraphSwitch = () => {
     const [checked,setChecked] = useState(true);
 
     const handleChange = (event) => {
