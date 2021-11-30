@@ -75,7 +75,6 @@ function Casual(props) {
         }
       }
     }
-    console.log(polygons);
     setPolygonCoor(polygons);
   }, []);
 
