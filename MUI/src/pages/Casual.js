@@ -5,9 +5,34 @@ import TemporaryDrawer from '../components/TemporaryDrawer';
 import axios from 'axios';
 import Legend from '../components/Legend';
 import styled from "styled-components";
+import CanvasJSReact from '../canvasjs.react';
+
+//var CanvasJSReact = require('./canvasjs.react');
+var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+//-----Data and Chart Section-----
+const options = {
+  title: {
+    text: "Covid-19 Data For:"
+  },
+  data: [{
+    type: "column",
+    dataPoints: [
+      { label: "Apple", y: 10 },
+      { label: "Orange", y: 15 },
+      { label: "Banana", y: 25 },
+      { label: "Mango", y: 30 },
+      { label: "Grape", y: 28 }
+    ]
+  }]
+}
 
 const StyledPop = styled(Popup)`
+  width: 500;
+  height: 1000;
   border-radius: 0;
+
   .leaflet-popup-content-wrapper {
     border-radius: 0;
   }
@@ -63,21 +88,21 @@ function Casual(props) {
       { "id": 44009, "color": "#ffffff", "coordinates": coor[4].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
     ];
 
-    for(let currData of data){
-      for(let currPoly of polygons){
-        if (currData.fips === currPoly.id){
+    for (let currData of data) {
+      for (let currPoly of polygons) {
+        if (currData.fips === currPoly.id) {
           currPoly.cases = currData.total_cases;
           currPoly.county_name = currData.county_name;
           currPoly.total_deaths = currData.total_deaths;
           currPoly.total_hospital = currData.total_hospital;
           currPoly.total_vaccinated = currData.total_vaccinated;
-          switch(true){
+          switch (true) {
             case (currPoly.cases >= 40000):
               currPoly.color = "#990000";
               break;
             case (currPoly.cases >= 30000):
               currPoly.color = "#cc0000";
-              break;  
+              break;
             case (currPoly.cases >= 20000):
               currPoly.color = "#ff0000";
               break;
@@ -114,7 +139,7 @@ function Casual(props) {
         setReady(true);
       });
     };
-    
+
     getCoor();
   }, [setCoor, swapCoor]);
 
@@ -132,11 +157,14 @@ function Casual(props) {
             ? polygonCoor.map((coor) => (
               <Polygon positions={coor.coordinates} color={coor.color} key={coor.id}>
                 <StyledPop>
-                  <h2> {coor.county_name} </h2> 
+                  <h2> {coor.county_name} </h2>
                   Number of cases: {coor.cases} <br></br>
                   Total Vaccinated: {coor.total_vaccinated} <br></br>
                   Total Hospitalized: {coor.total_hospital} <br></br>
-                  Total Deaths: {coor.total_deaths}
+                  Total Deaths: {coor.total_deaths} 
+                  <br></br>
+                  <br></br>
+                  <CanvasJSChart options={options}></CanvasJSChart>
                 </StyledPop>
               </Polygon>
             ))
