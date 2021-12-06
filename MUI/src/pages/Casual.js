@@ -4,6 +4,18 @@ import './leaflet/Casual.css';
 import TemporaryDrawer from '../components/TemporaryDrawer';
 import axios from 'axios';
 import Legend from '../components/Legend';
+import styled from "styled-components";
+
+const StyledPop = styled(Popup)`
+  border-radius: 0;
+  .leaflet-popup-content-wrapper {
+    border-radius: 0;
+  }
+
+  .leaflet-popup-tip-container {
+    visibility: hidden;
+  }
+`;
 
 function Casual(props) {
   // boolean for when polygonCoor has been populated and is ready to render
@@ -44,17 +56,21 @@ function Casual(props) {
   const setCoor = useCallback((coor, data) => {
 
     let polygons = [
-      { "id": 44001, "color": "#ffffff", "coordinates": coor[0].geometry.coordinates, "cases": "" },
-      { "id": 44003, "color": "#ffffff", "coordinates": coor[1].geometry.coordinates, "cases": "" },
-      { "id": 44005, "color": "#ffffff", "coordinates": coor[2].geometry.coordinates, "cases": "" },
-      { "id": 44007, "color": "#ffffff", "coordinates": coor[3].geometry.coordinates, "cases": "" },
-      { "id": 44009, "color": "#ffffff", "coordinates": coor[4].geometry.coordinates, "cases": "" },
+      { "id": 44001, "color": "#ffffff", "coordinates": coor[0].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
+      { "id": 44003, "color": "#ffffff", "coordinates": coor[1].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
+      { "id": 44005, "color": "#ffffff", "coordinates": coor[2].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
+      { "id": 44007, "color": "#ffffff", "coordinates": coor[3].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
+      { "id": 44009, "color": "#ffffff", "coordinates": coor[4].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
     ];
 
     for(let currData of data){
       for(let currPoly of polygons){
         if (currData.fips === currPoly.id){
           currPoly.cases = currData.total_cases;
+          currPoly.county_name = currData.county_name;
+          currPoly.total_deaths = currData.total_deaths;
+          currPoly.total_hospital = currData.total_hospital;
+          currPoly.total_vaccinated = currData.total_vaccinated;
           switch(true){
             case (currPoly.cases >= 40000):
               currPoly.color = "#990000";
@@ -115,9 +131,13 @@ function Casual(props) {
           {polygonCoor
             ? polygonCoor.map((coor) => (
               <Polygon positions={coor.coordinates} color={coor.color} key={coor.id}>
-                <Popup>
-                  {coor.id}
-                </Popup>
+                <StyledPop>
+                  <h2> {coor.county_name} </h2> 
+                  Number of cases: {coor.cases} <br></br>
+                  Total Vaccinated: {coor.total_vaccinated} <br></br>
+                  Total Hospitalized: {coor.total_hospital} <br></br>
+                  Total Deaths: {coor.total_deaths}
+                </StyledPop>
               </Polygon>
             ))
             : <></>
