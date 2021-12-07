@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -13,24 +13,21 @@ import { GraphSwitch } from './GraphSwitch';
 import { MapSwitch } from './MapSwitch';
 
 export default function TemporaryDrawer() {
-  const [state, setState] = React.useState({
-    left: false,
-  });
+  const [open, setOpen] = useState(false);
 
-  const toggleDrawer = (anchor, open) => (event) => {
+  const toggleDrawer = (isOpen) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
 
-    setState({ ...state, [anchor]: open });
+    setOpen(isOpen);
   };
 
-  const list = (anchor) => (
-    <p>
+  const list = () => (
     <Box
       sx={{ width: 400 }}
       role="presentation"
-      onKeyDown={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(false)}
     >
       <List>
         {['Switch View','Toggle Graphs', 'Toggle Maps'].map((text, index) => (
@@ -44,23 +41,18 @@ export default function TemporaryDrawer() {
         ))}
       </List>
     </Box>
-    </p>
   );
 
   return (
     <div>
-      {['Settings'].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}><SettingsIcon sx={{color: 'black'}} fontSize="large"/></Button>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+      <Button onClick={toggleDrawer(true)}><SettingsIcon sx={{color: 'black'}} fontSize="large"/></Button>
+      <Drawer
+        anchor="left"
+        open={open}
+        onClose={toggleDrawer(false)}
+      >
+        {list()}
+      </Drawer>
     </div>
   );
 }
