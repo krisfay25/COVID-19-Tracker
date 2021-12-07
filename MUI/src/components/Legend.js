@@ -59,9 +59,9 @@ const Legend = ({ dataType }) => {
             <List
                 subheader={
                     <ListSubheader component="div" id="nested-list-subheader">
-                        {dataType == "cases" ? "Total Cases" :
-                            dataType == "vaccinations" ? "Total Vaccinations" :
-                                "Total Deaths"}
+                        {dataType == "cases" ? "Case Rate" :
+                            dataType == "vaccinations" ? "Vaccination Rate" :
+                                "Death Rate"}
                     </ListSubheader>
                 }
             >

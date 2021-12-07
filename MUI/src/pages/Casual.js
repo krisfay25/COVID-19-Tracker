@@ -77,6 +77,9 @@ function Casual(props) {
         "total_deaths": "",
         "total_hospital": "",
         "total_vaccinated": "",
+        "case_rate": "",
+        "vaccination_rate": "",
+        "death_rate": "",
         "options":
         {
           title: {
@@ -102,6 +105,9 @@ function Casual(props) {
         "total_deaths": "",
         "total_hospital": "",
         "total_vaccinated": "",
+        "case_rate": "",
+        "vaccination_rate": "",
+        "death_rate": "",
         "options":
         {
           title: {
@@ -127,6 +133,9 @@ function Casual(props) {
         "total_deaths": "",
         "total_hospital": "",
         "total_vaccinated": "",
+        "case_rate": "",
+        "vaccination_rate": "",
+        "death_rate": "",
         "options":
         {
           title: {
@@ -152,6 +161,9 @@ function Casual(props) {
         "total_deaths": "",
         "total_hospital": "",
         "total_vaccinated": "",
+        "case_rate": "",
+        "vaccination_rate": "",
+        "death_rate": "",
         "options":
         {
           title: {
@@ -177,6 +189,9 @@ function Casual(props) {
         "total_deaths": "",
         "total_hospital": "",
         "total_vaccinated": "",
+        "case_rate": "",
+        "vaccination_rate": "",
+        "death_rate": "",
         "options":
         {
           title: {
@@ -195,8 +210,6 @@ function Casual(props) {
       }
     ];
 
-    console.log(polygons);
-
     for (let currData of data) {
       for (let currPoly of polygons) {
         if (currData.fips === currPoly.id) {
@@ -205,6 +218,9 @@ function Casual(props) {
           currPoly.total_deaths = currData.total_deaths;
           currPoly.total_hospital = currData.total_hospital;
           currPoly.total_vaccinated = currData.total_vaccinated;
+          currPoly.case_rate = currData.case_rate_per_100k;
+          currPoly.vaccination_rate = currData.vaccinated_rate_per_100k;
+          currPoly.death_rate = currData.death_rate_per_100k;
           currPoly.options.title.text = "Covid-19 Data For: " + currData.county_name;
           currPoly.options.data[0].dataPoints[0].y = currData.total_cases;
           currPoly.options.data[0].dataPoints[1].y = currData.total_vaccinated;
@@ -212,19 +228,19 @@ function Casual(props) {
           currPoly.options.data[0].dataPoints[3].y = currData.total_deaths;
           if (legendDataType == "cases") {
             switch (true) {
-              case (currPoly.cases >= 100000):
+              case (currPoly.case_rate >= 100000):
                 currPoly.color = "#FF0000";
                 break;
-              case (currPoly.cases >= 75000):
+              case (currPoly.case_rate >= 75000):
                 currPoly.color = "#FF5700";
                 break;
-              case (currPoly.cases >= 50000):
+              case (currPoly.case_rate >= 50000):
                 currPoly.color = "#FFE400";
                 break;
-              case (currPoly.cases >= 25000):
+              case (currPoly.case_rate >= 25000):
                 currPoly.color = "#6AFF00";
                 break;
-              case (currPoly.cases >= 0):
+              case (currPoly.case_rate >= 0):
                 currPoly.color = "#00FF00";
                 break;
               default:
@@ -234,19 +250,19 @@ function Casual(props) {
           }
           else if (legendDataType == "vaccinations") {
             switch (true) {
-              case (currPoly.total_vaccinated >= 400000):
+              case (currPoly.vaccination_rate >= 400000):
                 currPoly.color = "#FF0000";
                 break;
-              case (currPoly.total_vaccinated >= 300000):
+              case (currPoly.vaccination_rate >= 300000):
                 currPoly.color = "#FF5700";
                 break;
-              case (currPoly.total_vaccinated >= 200000):
+              case (currPoly.vaccination_rate >= 200000):
                 currPoly.color = "#FFE400";
                 break;
-              case (currPoly.total_vaccinated >= 100000):
+              case (currPoly.vaccination_rate >= 100000):
                 currPoly.color = "#6AFF00";
                 break;
-              case (currPoly.total_vaccinated >= 0):
+              case (currPoly.vaccination_rate >= 0):
                 currPoly.color = "#00FF00";
                 break;
               default:
@@ -256,19 +272,19 @@ function Casual(props) {
           }
           else if (legendDataType == "deaths") {
             switch (true) {
-              case (currPoly.total_deaths >= 3000):
+              case (currPoly.death_rate >= 3000):
                 currPoly.color = "#FF0000";
                 break;
-              case (currPoly.total_deaths >= 2250):
+              case (currPoly.death_rate >= 2250):
                 currPoly.color = "#FF5700";
                 break;
-              case (currPoly.total_deaths >= 1500):
+              case (currPoly.death_rate >= 1500):
                 currPoly.color = "#FFE400";
                 break;
-              case (currPoly.total_deaths >= 750):
+              case (currPoly.death_rate >= 750):
                 currPoly.color = "#6AFF00";
                 break;
-              case (currPoly.total_deaths >= 0):
+              case (currPoly.death_rate >= 0):
                 currPoly.color = "#00FF00";
                 break;
               default:
@@ -319,13 +335,13 @@ function Casual(props) {
           }}>
             <Button variant="contained" size="small" onClick={() => {
               setLegendDataType("cases");
-            }}>Total Cases</Button>
+            }}>Case Rate</Button>
             <Button variant="contained" size="small" onClick={() => {
               setLegendDataType("vaccinations");
-            }}>Total Vaccinations</Button>
+            }}>Vaccination Rate</Button>
             <Button variant="contained" size="small" onClick={() => {
               setLegendDataType("deaths");
-            }}>Total Deaths</Button>
+            }}>Death Rate</Button>
           </Stack>
           <Legend dataType={legendDataType} />
           <TileLayer
