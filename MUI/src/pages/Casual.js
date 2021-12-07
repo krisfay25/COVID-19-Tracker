@@ -4,12 +4,16 @@ import './leaflet/Casual.css';
 import TemporaryDrawer from '../components/TemporaryDrawer';
 import axios from 'axios';
 import Legend from '../components/Legend';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 function Casual(props) {
   // boolean for when polygonCoor has been populated and is ready to render
   const [ready, setReady] = useState(false);
   // this is where all of the values for the polygons will be kept
   const [polygonCoor, setPolygonCoor] = useState([]);
+
+  const [legendDataType, setLegendDataType] = useState("cases");
 
   // originally, the coordinates are in the wrong format. 
   // makes coordinates [x,y] => [y,x]
@@ -51,31 +55,82 @@ function Casual(props) {
       { "id": 44009, "color": "#ffffff", "coordinates": coor[4].geometry.coordinates, "cases": "" },
     ];
 
-    for(let currData of data){
-      for(let currPoly of polygons){
-        if (currData.fips === currPoly.id){
-          currPoly.cases = currData.total_cases;
-          switch(true){
-            case (currPoly.cases >= 40000):
-              currPoly.color = "#990000";
-              break;
-            case (currPoly.cases >= 30000):
-              currPoly.color = "#cc0000";
-              break;  
-            case (currPoly.cases >= 20000):
-              currPoly.color = "#ff0000";
-              break;
-            case (currPoly.cases >= 10000):
-              currPoly.color = "#ff4d4d";
-              break;
-            default:
-              currPoly.color = "#ffffff";
-              break;
+    for (let currData of data) {
+      for (let currPoly of polygons) {
+        if (currData.fips === currPoly.id) {
+
+          if (legendDataType == "cases") {
+            currPoly.cases = currData.total_cases;
+            switch (true) {
+              case (currPoly.cases >= 40000):
+                currPoly.color = "#FF0000";
+                break;
+              case (currPoly.cases >= 30000):
+                currPoly.color = "#FF5700";
+                break;
+              case (currPoly.cases >= 20000):
+                currPoly.color = "#FFE400";
+                break;
+              case (currPoly.cases >= 10000):
+                currPoly.color = "#6AFF00";
+                break;
+              case (currPoly.cases >= 0):
+                currPoly.color = "#00FF00";
+                break;
+              default:
+                currPoly.color = "#ffffff";
+                break;
+            }
+          }
+          else if (legendDataType == "vaccinations") {
+            currPoly.cases = currData.total_cases;
+            switch (true) {
+              case (currPoly.cases >= 40000):
+                currPoly.color = "#FF0000";
+                break;
+              case (currPoly.cases >= 30000):
+                currPoly.color = "#FF5700";
+                break;
+              case (currPoly.cases >= 20000):
+                currPoly.color = "#FFE400";
+                break;
+              case (currPoly.cases >= 10000):
+                currPoly.color = "#6AFF00";
+                break;
+              case (currPoly.cases >= 0):
+                currPoly.color = "#00FF00";
+                break;
+              default:
+                currPoly.color = "#ffffff";
+                break;
+            }
+          }
+          else if (legendDataType == "deaths") {
+            currPoly.cases = currData.total_cases;
+            switch (true) {
+              case (currPoly.cases >= 40000):
+                currPoly.color = "#FF0000";
+                break;
+              case (currPoly.cases >= 30000):
+                currPoly.color = "#FF5700";
+                break;
+              case (currPoly.cases >= 20000):
+                currPoly.color = "#FFE400";
+                break;
+              case (currPoly.cases >= 10000):
+                currPoly.color = "#6AFF00";
+                break;
+              case (currPoly.cases >= 0):
+                currPoly.color = "#00FF00";
+                break;
+              default:
+                currPoly.color = "#ffffff";
+                break;
+            }
           }
         }
       }
     }
-    console.log(polygons);
     setPolygonCoor(polygons);
   }, []);
 
@@ -99,7 +154,7 @@ function Casual(props) {
         setReady(true);
       });
     };
-    
+
     getCoor();
   }, [setCoor, swapCoor]);
 
@@ -108,7 +163,17 @@ function Casual(props) {
       {ready
         ? <MapContainer center={[41.700, -71.500]} zoom={10} scrollWheelZoom={true}>
           <TemporaryDrawer />
-          <Legend />
+          <Stack spacing={0} direction="column" sx={{
+            position: "absolute",
+            maxWidth: 180,
+            bottom: 5,
+            left: 5,
+          }}>
+            <Button variant="contained" size="small" onClick={() => { setLegendDataType("cases") }}>Total Cases</Button>
+            <Button variant="contained" size="small" onClick={() => { setLegendDataType("vaccinations") }}>Total Vaccinations</Button>
+            <Button variant="contained" size="small" onClick={() => { setLegendDataType("deaths") }}>Total Deaths</Button>
+          </Stack>
+          <Legend dataType={legendDataType} />
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
