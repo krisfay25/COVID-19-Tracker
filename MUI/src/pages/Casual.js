@@ -237,16 +237,16 @@ function Casual(props) {
           }
           else if (legendDataType == "vaccinations") {
             switch (true) {
-              case (currPoly.vaccination_rate >= 400000):
+              case (currPoly.vaccination_rate >= 6000):
                 currPoly.color = "#FF0000";
                 break;
-              case (currPoly.vaccination_rate >= 300000):
+              case (currPoly.vaccination_rate >= 4500):
                 currPoly.color = "#FF5700";
                 break;
-              case (currPoly.vaccination_rate >= 200000):
+              case (currPoly.vaccination_rate >= 3000):
                 currPoly.color = "#FFE400";
                 break;
-              case (currPoly.vaccination_rate >= 100000):
+              case (currPoly.vaccination_rate >= 1500):
                 currPoly.color = "#6AFF00";
                 break;
               case (currPoly.vaccination_rate >= 0):
