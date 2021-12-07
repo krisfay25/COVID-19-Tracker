@@ -4,10 +4,8 @@ import './leaflet/Casual.css';
 import TemporaryDrawer from '../components/TemporaryDrawer';
 import axios from 'axios';
 import Legend from '../components/Legend';
-<<<<<<< HEAD
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-=======
 import styled from "styled-components";
 import CanvasJSReact from '../canvasjs.react';
 
@@ -45,7 +43,6 @@ const StyledPop = styled(Popup)`
     visibility: hidden;
   }
 `;
->>>>>>> popUp_map
 
 function Casual(props) {
   // boolean for when polygonCoor has been populated and is ready to render
@@ -105,16 +102,16 @@ function Casual(props) {
           currPoly.total_vaccinated = currData.total_vaccinated;
           if (legendDataType == "cases") {
             switch (true) {
-              case (currPoly.cases >= 40000):
+              case (currPoly.cases >= 100000):
                 currPoly.color = "#FF0000";
                 break;
-              case (currPoly.cases >= 30000):
+              case (currPoly.cases >= 75000):
                 currPoly.color = "#FF5700";
                 break;
-              case (currPoly.cases >= 20000):
+              case (currPoly.cases >= 50000):
                 currPoly.color = "#FFE400";
                 break;
-              case (currPoly.cases >= 10000):
+              case (currPoly.cases >= 25000):
                 currPoly.color = "#6AFF00";
                 break;
               case (currPoly.cases >= 0):
@@ -127,19 +124,19 @@ function Casual(props) {
           }
           else if (legendDataType == "vaccinations") {
             switch (true) {
-              case (currPoly.cases >= 40000):
+              case (currPoly.total_vaccinated >= 400000):
                 currPoly.color = "#FF0000";
                 break;
-              case (currPoly.cases >= 30000):
+              case (currPoly.total_vaccinated >= 300000):
                 currPoly.color = "#FF5700";
                 break;
-              case (currPoly.cases >= 20000):
+              case (currPoly.total_vaccinated >= 200000):
                 currPoly.color = "#FFE400";
                 break;
-              case (currPoly.cases >= 10000):
+              case (currPoly.total_vaccinated >= 100000):
                 currPoly.color = "#6AFF00";
                 break;
-              case (currPoly.cases >= 0):
+              case (currPoly.total_vaccinated >= 0):
                 currPoly.color = "#00FF00";
                 break;
               default:
@@ -149,19 +146,19 @@ function Casual(props) {
           }
           else if (legendDataType == "deaths") {
             switch (true) {
-              case (currPoly.cases >= 40000):
+              case (currPoly.total_deaths >= 3000):
                 currPoly.color = "#FF0000";
                 break;
-              case (currPoly.cases >= 30000):
+              case (currPoly.total_deaths >= 2250):
                 currPoly.color = "#FF5700";
                 break;
-              case (currPoly.cases >= 20000):
+              case (currPoly.total_deaths >= 1500):
                 currPoly.color = "#FFE400";
                 break;
-              case (currPoly.cases >= 10000):
+              case (currPoly.total_deaths >= 750):
                 currPoly.color = "#6AFF00";
                 break;
-              case (currPoly.cases >= 0):
+              case (currPoly.total_deaths >= 0):
                 currPoly.color = "#00FF00";
                 break;
               default:
@@ -197,7 +194,7 @@ function Casual(props) {
     };
 
     getCoor();
-  }, [setCoor, swapCoor]);
+  }, [setCoor, swapCoor, legendDataType]);
 
   return (
     <div>
@@ -210,9 +207,15 @@ function Casual(props) {
             bottom: 5,
             left: 5,
           }}>
-            <Button variant="contained" size="small" onClick={() => { setLegendDataType("cases") }}>Total Cases</Button>
-            <Button variant="contained" size="small" onClick={() => { setLegendDataType("vaccinations") }}>Total Vaccinations</Button>
-            <Button variant="contained" size="small" onClick={() => { setLegendDataType("deaths") }}>Total Deaths</Button>
+            <Button variant="contained" size="small" onClick={() => {
+              setLegendDataType("cases");
+            }}>Total Cases</Button>
+            <Button variant="contained" size="small" onClick={() => {
+              setLegendDataType("vaccinations");
+            }}>Total Vaccinations</Button>
+            <Button variant="contained" size="small" onClick={() => {
+              setLegendDataType("deaths");
+            }}>Total Deaths</Button>
           </Stack>
           <Legend dataType={legendDataType} />
           <TileLayer
