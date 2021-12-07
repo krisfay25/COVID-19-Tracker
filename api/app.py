@@ -17,7 +17,7 @@ config = {
 }
 
 # The columns of each table
-county_headers = ['fips', 'state_id', 'county_name', 'total_cases', 'total_hospital', 'total_deaths', 'total_vaccinated', 'last_updated_timestamp']
+county_headers = ['fips', 'state_id', 'county_name', 'total_cases', 'total_hospital', 'total_deaths', 'total_vaccinated', 'case_rate_per_100k', 'hospital_rate_per_100k', 'death_rate_per_100k', 'vaccinated_rate_per_100k', 'last_updated_timestamp']
 monthly_headers = {
     'monthly_cases': ['fips', 'infection_month', 'infection_year', 'num_cases', 'rate_cases', 'last_updated'],
     'monthly_deaths': ['fips', 'death_month', 'death_year', 'num_deaths', 'rate_deaths', 'last_updated'],
