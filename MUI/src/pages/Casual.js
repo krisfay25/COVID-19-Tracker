@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useState } from 'react';
 import { MapContainer, TileLayer, Polygon, Popup } from 'react-leaflet'
+import React, { Component } from 'react';
 import './leaflet/Casual.css';
 import TemporaryDrawer from '../components/TemporaryDrawer';
 import axios from 'axios';
@@ -14,25 +15,11 @@ var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 var options;
 
-const StyledPop = styled(Popup)`
-  width: 50vh;
-  border-radius: 0;
-
-  .leaflet-popup-content-wrapper {
-    border-radius: 0;
-  }
-
-  .leaflet-popup-tip-container {
-    visibility: hidden;
-  }
-`;
-
 function Casual(props) {
   // boolean for when polygonCoor has been populated and is ready to render
   const [ready, setReady] = useState(false);
   // this is where all of the values for the polygons will be kept
   const [polygonCoor, setPolygonCoor] = useState([]);
-
   const [legendDataType, setLegendDataType] = useState("cases");
 
   // originally, the coordinates are in the wrong format. 
@@ -322,6 +309,20 @@ function Casual(props) {
     getCoor();
   }, [setCoor, swapCoor, legendDataType]);
 
+  //Style the pop-up in map
+  const StyledPop = styled(Popup)`
+width: 70vh;
+border-radius: 0;
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0;
+}
+
+.leaflet-popup-tip-container {
+  visibility: hidden;
+}
+`;
+
   return (
     <div>
       {ready
@@ -353,13 +354,33 @@ function Casual(props) {
               <Polygon positions={coor.coordinates} color={coor.color} key={coor.id}>
                 <StyledPop>
                   <h2> {coor.county_name} </h2>
+                  Case Rate: {coor.case_rate} <br></br>
+                  Vaccination Rate: {coor.vaccination_rate} <br></br>
+                  Death Rate: {coor.death_rate} <br></br>
                   Number of cases: {coor.cases} <br></br>
                   Total Vaccinated: {coor.total_vaccinated} <br></br>
                   Total Hospitalized: {coor.total_hospital} <br></br>
                   Total Deaths: {coor.total_deaths}
                   <br></br>
                   <br></br>
-                  <CanvasJSChart options={coor.options} />
+                  Pick a graph to visualize:
+                  <br></br>
+                  {/* -------------------- */}
+                  <div class="dropdown">
+                    <button class="dropbtn">Select Graph</button>
+                    <div class="dropdown-content">
+                      <a class="myDIV">Case Rates</a>
+                      <div class="hide"> <CanvasJSChart options={coor.options} /> </div>
+                      <a href="#">Vaccination Rates</a>
+                      <a href="#">Death Rates</a>
+                      <a href="#">Total Number of Cases</a>
+                      <a href="#">Total Vaccinated</a>
+                      <a href="#">Total Hospitalized</a>
+                      <a href="#">Total Deaths</a>
+                    </div>
+                  </div>
+
+                  {/* <CanvasJSChart options={coor.options} /> */}
                 </StyledPop>
               </Polygon>
             ))
