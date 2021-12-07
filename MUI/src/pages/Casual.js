@@ -259,7 +259,7 @@ function Casual(props) {
   return (
     <div>
       {ready
-        ? <MapContainer center={[41.700, -71.500]} zoom={10} scrollWheelZoom={true}>
+        ? <MapContainer center={[41.550, -71.500]} zoom={9.5} scrollWheelZoom={true}>
           <TemporaryDrawer />
           <Legend />
           <TileLayer
