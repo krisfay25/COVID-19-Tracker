@@ -10,27 +10,10 @@ import CanvasJSReact from '../canvasjs.react';
 //var CanvasJSReact = require('./canvasjs.react');
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
-//-----Data and Chart Section-----
-const options = {
-  title: {
-    text: "Covid-19 Data For:"
-  },
-  data: [{
-    type: "column",
-    dataPoints: [
-      { label: "Apple", y: 10 },
-      { label: "Orange", y: 15 },
-      { label: "Banana", y: 25 },
-      { label: "Mango", y: 30 },
-      { label: "Grape", y: 28 }
-    ]
-  }]
-}
+var options;
 
 const StyledPop = styled(Popup)`
-  width: 500;
-  height: 1000;
+  width: 50vh;
   border-radius: 0;
 
   .leaflet-popup-content-wrapper {
@@ -81,12 +64,134 @@ function Casual(props) {
   const setCoor = useCallback((coor, data) => {
 
     let polygons = [
-      { "id": 44001, "color": "#ffffff", "coordinates": coor[0].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
-      { "id": 44003, "color": "#ffffff", "coordinates": coor[1].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
-      { "id": 44005, "color": "#ffffff", "coordinates": coor[2].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
-      { "id": 44007, "color": "#ffffff", "coordinates": coor[3].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
-      { "id": 44009, "color": "#ffffff", "coordinates": coor[4].geometry.coordinates, "cases": "", "county_name": "", "total_deaths": "", "total_hospital": "", "total_vaccinated": "" },
+      {
+        "id": 44001,
+        "color": "#ffffff",
+        "coordinates": coor[0].geometry.coordinates,
+        "cases": "",
+        "county_name": "",
+        "total_deaths": "",
+        "total_hospital": "",
+        "total_vaccinated": "",
+        "options":
+        {
+          title: {
+            text: ""
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "Total Cases", y: "" },
+              { label: "Total Vaccination", y: "" },
+              { label: "Total Hospitalized", y: "" },
+              { label: "Total Deaths", y: "" }
+            ]
+          }]
+        }
+      },
+      {
+        "id": 44003,
+        "color": "#ffffff",
+        "coordinates": coor[1].geometry.coordinates,
+        "cases": "",
+        "county_name": "",
+        "total_deaths": "",
+        "total_hospital": "",
+        "total_vaccinated": "",
+        "options":
+        {
+          title: {
+            text: ""
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "Total Cases", y: "" },
+              { label: "Total Vaccination", y: "" },
+              { label: "Total Hospitalized", y: "" },
+              { label: "Total Deaths", y: "" }
+            ]
+          }]
+        }
+      },
+      {
+        "id": 44005,
+        "color": "#ffffff",
+        "coordinates": coor[2].geometry.coordinates,
+        "cases": "",
+        "county_name": "",
+        "total_deaths": "",
+        "total_hospital": "",
+        "total_vaccinated": "",
+        "options":
+        {
+          title: {
+            text: ""
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "Total Cases", y: "" },
+              { label: "Total Vaccination", y: "" },
+              { label: "Total Hospitalized", y: "" },
+              { label: "Total Deaths", y: "" }
+            ]
+          }]
+        }
+      },
+      {
+        "id": 44007,
+        "color": "#ffffff",
+        "coordinates": coor[3].geometry.coordinates,
+        "cases": "",
+        "county_name": "",
+        "total_deaths": "",
+        "total_hospital": "",
+        "total_vaccinated": "",
+        "options":
+        {
+          title: {
+            text: ""
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "Total Cases", y: "" },
+              { label: "Total Vaccination", y: "" },
+              { label: "Total Hospitalized", y: "" },
+              { label: "Total Deaths", y: "" }
+            ]
+          }]
+        }
+      },
+      {
+        "id": 44009,
+        "color": "#ffffff",
+        "coordinates": coor[4].geometry.coordinates,
+        "cases": "",
+        "county_name": "",
+        "total_deaths": "",
+        "total_hospital": "",
+        "total_vaccinated": "",
+        "options":
+        {
+          title: {
+            text: ""
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "Total Cases", y: "" },
+              { label: "Total Vaccination", y: "" },
+              { label: "Total Hospitalized", y: "" },
+              { label: "Total Deaths", y: "" }
+            ]
+          }]
+        }
+      }
     ];
+
+    console.log(polygons);
 
     for (let currData of data) {
       for (let currPoly of polygons) {
@@ -96,6 +201,14 @@ function Casual(props) {
           currPoly.total_deaths = currData.total_deaths;
           currPoly.total_hospital = currData.total_hospital;
           currPoly.total_vaccinated = currData.total_vaccinated;
+
+          //Setting graph data
+          currPoly.options.title.text = "Covid-19 Data For: " + currData.county_name;
+          currPoly.options.data[0].dataPoints[0].y = currData.total_cases;
+          currPoly.options.data[0].dataPoints[1].y = currData.total_vaccinated;
+          currPoly.options.data[0].dataPoints[2].y = currData.total_hospital;
+          currPoly.options.data[0].dataPoints[3].y = currData.total_deaths; 
+
           switch (true) {
             case (currPoly.cases >= 40000):
               currPoly.color = "#990000";
@@ -161,10 +274,10 @@ function Casual(props) {
                   Number of cases: {coor.cases} <br></br>
                   Total Vaccinated: {coor.total_vaccinated} <br></br>
                   Total Hospitalized: {coor.total_hospital} <br></br>
-                  Total Deaths: {coor.total_deaths} 
+                  Total Deaths: {coor.total_deaths}
                   <br></br>
                   <br></br>
-                  <CanvasJSChart options={options}></CanvasJSChart>
+                  <CanvasJSChart options={coor.options} />
                 </StyledPop>
               </Polygon>
             ))
