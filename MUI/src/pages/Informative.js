@@ -75,6 +75,7 @@ export const Informative = () => {
             <TemporaryDrawer/>
             <h1>Rhode Island</h1> 
             {!loading ? <div>Loading....</div> : <div>
+            <p>Rates are given per 100,000 population.</p>
             <h2>Total Data</h2>
             <TotalsTable data={main} />
             </div>}

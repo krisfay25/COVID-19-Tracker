@@ -1,15 +1,26 @@
 import { useEffect, useCallback, useState } from 'react';
 import { MapContainer, TileLayer, Polygon, Popup } from 'react-leaflet'
+import React, { Component } from 'react';
 import './leaflet/Casual.css';
 import TemporaryDrawer from '../components/TemporaryDrawer';
 import axios from 'axios';
 import Legend from '../components/Legend';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import styled from "styled-components";
+import CanvasJSReact from '../canvasjs.react';
+
+//var CanvasJSReact = require('./canvasjs.react');
+var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+var options;
 
 function Casual(props) {
   // boolean for when polygonCoor has been populated and is ready to render
   const [ready, setReady] = useState(false);
   // this is where all of the values for the polygons will be kept
   const [polygonCoor, setPolygonCoor] = useState([]);
+  const [legendDataType, setLegendDataType] = useState("cases");
 
   // originally, the coordinates are in the wrong format. 
   // makes coordinates [x,y] => [y,x]
@@ -44,33 +55,229 @@ function Casual(props) {
   const setCoor = useCallback((coor, data) => {
 
     let polygons = [
-      { "id": 44001, "color": "#ffffff", "coordinates": coor[0].geometry.coordinates, "cases": "" },
-      { "id": 44003, "color": "#ffffff", "coordinates": coor[1].geometry.coordinates, "cases": "" },
-      { "id": 44005, "color": "#ffffff", "coordinates": coor[2].geometry.coordinates, "cases": "" },
-      { "id": 44007, "color": "#ffffff", "coordinates": coor[3].geometry.coordinates, "cases": "" },
-      { "id": 44009, "color": "#ffffff", "coordinates": coor[4].geometry.coordinates, "cases": "" },
+      {
+        "id": 44001,
+        "color": "#ffffff",
+        "coordinates": coor[0].geometry.coordinates,
+        "cases": "",
+        "county_name": "",
+        "total_deaths": "",
+        "total_hospital": "",
+        "total_vaccinated": "",
+        "case_rate": "",
+        "vaccination_rate": "",
+        "death_rate": "",
+        "options":
+        {
+          title: {
+            text: ""
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "Total Cases", y: "" },
+              { label: "Total Vaccination", y: "" },
+              { label: "Total Hospitalized", y: "" },
+              { label: "Total Deaths", y: "" }
+            ]
+          }]
+        }
+      },
+      {
+        "id": 44003,
+        "color": "#ffffff",
+        "coordinates": coor[1].geometry.coordinates,
+        "cases": "",
+        "county_name": "",
+        "total_deaths": "",
+        "total_hospital": "",
+        "total_vaccinated": "",
+        "case_rate": "",
+        "vaccination_rate": "",
+        "death_rate": "",
+        "options":
+        {
+          title: {
+            text: ""
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "Total Cases", y: "" },
+              { label: "Total Vaccination", y: "" },
+              { label: "Total Hospitalized", y: "" },
+              { label: "Total Deaths", y: "" }
+            ]
+          }]
+        }
+      },
+      {
+        "id": 44005,
+        "color": "#ffffff",
+        "coordinates": coor[2].geometry.coordinates,
+        "cases": "",
+        "county_name": "",
+        "total_deaths": "",
+        "total_hospital": "",
+        "total_vaccinated": "",
+        "case_rate": "",
+        "vaccination_rate": "",
+        "death_rate": "",
+        "options":
+        {
+          title: {
+            text: ""
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "Total Cases", y: "" },
+              { label: "Total Vaccination", y: "" },
+              { label: "Total Hospitalized", y: "" },
+              { label: "Total Deaths", y: "" }
+            ]
+          }]
+        }
+      },
+      {
+        "id": 44007,
+        "color": "#ffffff",
+        "coordinates": coor[3].geometry.coordinates,
+        "cases": "",
+        "county_name": "",
+        "total_deaths": "",
+        "total_hospital": "",
+        "total_vaccinated": "",
+        "case_rate": "",
+        "vaccination_rate": "",
+        "death_rate": "",
+        "options":
+        {
+          title: {
+            text: ""
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "Total Cases", y: "" },
+              { label: "Total Vaccination", y: "" },
+              { label: "Total Hospitalized", y: "" },
+              { label: "Total Deaths", y: "" }
+            ]
+          }]
+        }
+      },
+      {
+        "id": 44009,
+        "color": "#ffffff",
+        "coordinates": coor[4].geometry.coordinates,
+        "cases": "",
+        "county_name": "",
+        "total_deaths": "",
+        "total_hospital": "",
+        "total_vaccinated": "",
+        "case_rate": "",
+        "vaccination_rate": "",
+        "death_rate": "",
+        "options":
+        {
+          title: {
+            text: ""
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "Total Cases", y: "" },
+              { label: "Total Vaccination", y: "" },
+              { label: "Total Hospitalized", y: "" },
+              { label: "Total Deaths", y: "" }
+            ]
+          }]
+        }
+      }
     ];
 
-    for(let currData of data){
-      for(let currPoly of polygons){
-        if (currData.fips === currPoly.id){
+    for (let currData of data) {
+      for (let currPoly of polygons) {
+        if (currData.fips === currPoly.id) {
           currPoly.cases = currData.total_cases;
-          switch(true){
-            case (currPoly.cases >= 40000):
-              currPoly.color = "#990000";
-              break;
-            case (currPoly.cases >= 30000):
-              currPoly.color = "#cc0000";
-              break;  
-            case (currPoly.cases >= 20000):
-              currPoly.color = "#ff0000";
-              break;
-            case (currPoly.cases >= 10000):
-              currPoly.color = "#ff4d4d";
-              break;
-            default:
-              currPoly.color = "#ffffff";
-              break;
+          currPoly.county_name = currData.county_name;
+          currPoly.total_deaths = currData.total_deaths;
+          currPoly.total_hospital = currData.total_hospital;
+          currPoly.total_vaccinated = currData.total_vaccinated;
+          currPoly.case_rate = currData.case_rate_per_100k;
+          currPoly.vaccination_rate = currData.vaccinated_rate_per_100k;
+          currPoly.death_rate = currData.death_rate_per_100k;
+          currPoly.options.title.text = "Covid-19 Data For: " + currData.county_name;
+          currPoly.options.data[0].dataPoints[0].y = currData.total_cases;
+          currPoly.options.data[0].dataPoints[1].y = currData.total_vaccinated;
+          currPoly.options.data[0].dataPoints[2].y = currData.total_hospital;
+          currPoly.options.data[0].dataPoints[3].y = currData.total_deaths;
+          if (legendDataType == "cases") {
+            switch (true) {
+              case (currPoly.case_rate >= 100000):
+                currPoly.color = "#FF0000";
+                break;
+              case (currPoly.case_rate >= 75000):
+                currPoly.color = "#FF5700";
+                break;
+              case (currPoly.case_rate >= 50000):
+                currPoly.color = "#FFE400";
+                break;
+              case (currPoly.case_rate >= 25000):
+                currPoly.color = "#6AFF00";
+                break;
+              case (currPoly.case_rate >= 0):
+                currPoly.color = "#00FF00";
+                break;
+              default:
+                currPoly.color = "#ffffff";
+                break;
+            }
+          }
+          else if (legendDataType == "vaccinations") {
+            switch (true) {
+              case (currPoly.vaccination_rate >= 6000):
+                currPoly.color = "#FF0000";
+                break;
+              case (currPoly.vaccination_rate >= 4500):
+                currPoly.color = "#FF5700";
+                break;
+              case (currPoly.vaccination_rate >= 3000):
+                currPoly.color = "#FFE400";
+                break;
+              case (currPoly.vaccination_rate >= 1500):
+                currPoly.color = "#6AFF00";
+                break;
+              case (currPoly.vaccination_rate >= 0):
+                currPoly.color = "#00FF00";
+                break;
+              default:
+                currPoly.color = "#ffffff";
+                break;
+            }
+          }
+          else if (legendDataType == "deaths") {
+            switch (true) {
+              case (currPoly.death_rate >= 3000):
+                currPoly.color = "#FF0000";
+                break;
+              case (currPoly.death_rate >= 2250):
+                currPoly.color = "#FF5700";
+                break;
+              case (currPoly.death_rate >= 1500):
+                currPoly.color = "#FFE400";
+                break;
+              case (currPoly.death_rate >= 750):
+                currPoly.color = "#6AFF00";
+                break;
+              case (currPoly.death_rate >= 0):
+                currPoly.color = "#00FF00";
+                break;
+              default:
+                currPoly.color = "#ffffff";
+                break;
+            }
           }
         }
       }
@@ -98,16 +305,46 @@ function Casual(props) {
         setReady(true);
       });
     };
-    
+
     getCoor();
-  }, [setCoor, swapCoor]);
+  }, [setCoor, swapCoor, legendDataType]);
+
+  //Style the pop-up in map
+  const StyledPop = styled(Popup)`
+width: 70vh;
+border-radius: 0;
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0;
+}
+
+.leaflet-popup-tip-container {
+  visibility: hidden;
+}
+`;
 
   return (
     <div>
       {ready
-        ? <MapContainer center={[41.700, -71.500]} zoom={10} scrollWheelZoom={true}>
+        ? <MapContainer center={[41.550, -71.500]} zoom={9.5} scrollWheelZoom={true}>
           <TemporaryDrawer />
-          <Legend />
+          <Stack spacing={0} direction="column" sx={{
+            position: "absolute",
+            maxWidth: 180,
+            bottom: 5,
+            left: 5,
+          }}>
+            <Button variant="contained" size="small" onClick={() => {
+              setLegendDataType("cases");
+            }}>Case Rate</Button>
+            <Button variant="contained" size="small" onClick={() => {
+              setLegendDataType("vaccinations");
+            }}>Vaccination Rate</Button>
+            <Button variant="contained" size="small" onClick={() => {
+              setLegendDataType("deaths");
+            }}>Death Rate</Button>
+          </Stack>
+          <Legend dataType={legendDataType} />
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -115,9 +352,36 @@ function Casual(props) {
           {polygonCoor
             ? polygonCoor.map((coor) => (
               <Polygon positions={coor.coordinates} color={coor.color} key={coor.id}>
-                <Popup>
-                  {coor.id}
-                </Popup>
+                <StyledPop>
+                  <h2> {coor.county_name} </h2>
+                  Case Rate: {coor.case_rate} <br></br>
+                  Vaccination Rate: {coor.vaccination_rate} <br></br>
+                  Death Rate: {coor.death_rate} <br></br>
+                  Number of cases: {coor.cases} <br></br>
+                  Total Vaccinated: {coor.total_vaccinated} <br></br>
+                  Total Hospitalized: {coor.total_hospital} <br></br>
+                  Total Deaths: {coor.total_deaths}
+                  <br></br>
+                  <br></br>
+                  Pick a graph to visualize:
+                  <br></br>
+                  {/* -------------------- */}
+                  <div class="dropdown">
+                    <button class="dropbtn">Select Graph</button>
+                    <div class="dropdown-content">
+                      <a class="myDIV">Case Rates</a>
+                      <div class="hide"> <CanvasJSChart options={coor.options} /> </div>
+                      <a href="#">Vaccination Rates</a>
+                      <a href="#">Death Rates</a>
+                      <a href="#">Total Number of Cases</a>
+                      <a href="#">Total Vaccinated</a>
+                      <a href="#">Total Hospitalized</a>
+                      <a href="#">Total Deaths</a>
+                    </div>
+                  </div>
+
+                  {/* <CanvasJSChart options={coor.options} /> */}
+                </StyledPop>
               </Polygon>
             ))
             : <></>
