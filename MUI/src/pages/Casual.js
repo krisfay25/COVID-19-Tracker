@@ -21,6 +21,7 @@ function Casual(props) {
   // this is where all of the values for the polygons will be kept
   const [polygonCoor, setPolygonCoor] = useState([]);
   const [legendDataType, setLegendDataType] = useState("cases");
+  const [update, setUpdate] = useState(0);
 
   // originally, the coordinates are in the wrong format. 
   // makes coordinates [x,y] => [y,x]
@@ -213,18 +214,18 @@ function Casual(props) {
           currPoly.options.data[0].dataPoints[1].y = currData.total_vaccinated;
           currPoly.options.data[0].dataPoints[2].y = currData.total_hospital;
           currPoly.options.data[0].dataPoints[3].y = currData.total_deaths;
-          if (legendDataType == "cases") {
+          if (legendDataType === "cases") {
             switch (true) {
-              case (currPoly.case_rate >= 100000):
+              case (currPoly.case_rate >= 16000):
                 currPoly.color = "#FF0000";
                 break;
-              case (currPoly.case_rate >= 75000):
+              case (currPoly.case_rate >= 12000):
                 currPoly.color = "#FF5700";
                 break;
-              case (currPoly.case_rate >= 50000):
+              case (currPoly.case_rate >= 8000):
                 currPoly.color = "#FFE400";
                 break;
-              case (currPoly.case_rate >= 25000):
+              case (currPoly.case_rate >= 4000):
                 currPoly.color = "#6AFF00";
                 break;
               case (currPoly.case_rate >= 0):
@@ -235,18 +236,18 @@ function Casual(props) {
                 break;
             }
           }
-          else if (legendDataType == "vaccinations") {
+          else if (legendDataType === "vaccinations") {
             switch (true) {
-              case (currPoly.vaccination_rate >= 6000):
+              case (currPoly.vaccination_rate >= 800):
                 currPoly.color = "#FF0000";
                 break;
-              case (currPoly.vaccination_rate >= 4500):
+              case (currPoly.vaccination_rate >= 600):
                 currPoly.color = "#FF5700";
                 break;
-              case (currPoly.vaccination_rate >= 3000):
+              case (currPoly.vaccination_rate >= 400):
                 currPoly.color = "#FFE400";
                 break;
-              case (currPoly.vaccination_rate >= 1500):
+              case (currPoly.vaccination_rate >= 200):
                 currPoly.color = "#6AFF00";
                 break;
               case (currPoly.vaccination_rate >= 0):
@@ -257,18 +258,18 @@ function Casual(props) {
                 break;
             }
           }
-          else if (legendDataType == "deaths") {
+          else if (legendDataType === "deaths") {
             switch (true) {
-              case (currPoly.death_rate >= 3000):
+              case (currPoly.death_rate >= 400):
                 currPoly.color = "#FF0000";
                 break;
-              case (currPoly.death_rate >= 2250):
+              case (currPoly.death_rate >= 350):
                 currPoly.color = "#FF5700";
                 break;
-              case (currPoly.death_rate >= 1500):
+              case (currPoly.death_rate >= 200):
                 currPoly.color = "#FFE400";
                 break;
-              case (currPoly.death_rate >= 750):
+              case (currPoly.death_rate >= 100):
                 currPoly.color = "#6AFF00";
                 break;
               case (currPoly.death_rate >= 0):
@@ -284,6 +285,80 @@ function Casual(props) {
     }
     setPolygonCoor(polygons);
   }, []);
+
+  const updateCoor = () => {
+    for (let currPoly of polygonCoor) {
+      if (legendDataType === "cases") {
+        switch (true) {
+          case (currPoly.case_rate >= 100000):
+            currPoly.color = "#FF0000";
+            break;
+          case (currPoly.case_rate >= 75000):
+            currPoly.color = "#FF5700";
+            break;
+          case (currPoly.case_rate >= 50000):
+            currPoly.color = "#FFE400";
+            break;
+          case (currPoly.case_rate >= 25000):
+            currPoly.color = "#6AFF00";
+            break;
+          case (currPoly.case_rate >= 0):
+            currPoly.color = "#00FF00";
+            break;
+          default:
+            currPoly.color = "#ffffff";
+            break;
+        }
+      }
+
+      else if (legendDataType === "vaccinations") {
+        switch (true) {
+          case (currPoly.vaccination_rate >= 6000):
+            currPoly.color = "#FF0000";
+            break;
+          case (currPoly.vaccination_rate >= 4500):
+            currPoly.color = "#FF5700";
+            break;
+          case (currPoly.vaccination_rate >= 3000):
+            currPoly.color = "#FFE400";
+            break;
+          case (currPoly.vaccination_rate >= 1500):
+            currPoly.color = "#6AFF00";
+            break;
+          case (currPoly.vaccination_rate >= 0):
+            currPoly.color = "#00FF00";
+            break;
+          default:
+            currPoly.color = "#ffffff";
+            break;
+        }
+      }
+
+      else if (legendDataType === "deaths") {
+        switch (true) {
+          case (currPoly.death_rate >= 3000):
+            currPoly.color = "#FF0000";
+            break;
+          case (currPoly.death_rate >= 2250):
+            currPoly.color = "#FF5700";
+            break;
+          case (currPoly.death_rate >= 1500):
+            currPoly.color = "#FFE400";
+            break;
+          case (currPoly.death_rate >= 750):
+            currPoly.color = "#6AFF00";
+            break;
+          case (currPoly.death_rate >= 0):
+            currPoly.color = "#00FF00";
+            break;
+          default:
+            currPoly.color = "#ffffff";
+            break;
+        }
+      }
+    }
+    setUpdate(update + 1);
+  }
 
   useEffect(() => {
     async function getCoor() {
@@ -307,7 +382,7 @@ function Casual(props) {
     };
 
     getCoor();
-  }, [setCoor, swapCoor, legendDataType]);
+  }, [setCoor, swapCoor, legendDataType, update]);
 
   //Style the pop-up in map
   const StyledPop = styled(Popup)`
@@ -336,12 +411,15 @@ border-radius: 0;
           }}>
             <Button variant="contained" size="small" onClick={() => {
               setLegendDataType("cases");
+              updateCoor();
             }}>Case Rate</Button>
             <Button variant="contained" size="small" onClick={() => {
               setLegendDataType("vaccinations");
+              updateCoor();
             }}>Vaccination Rate</Button>
             <Button variant="contained" size="small" onClick={() => {
               setLegendDataType("deaths");
+              updateCoor();
             }}>Death Rate</Button>
           </Stack>
           <Legend dataType={legendDataType} />
