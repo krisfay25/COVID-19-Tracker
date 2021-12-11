@@ -10,10 +10,7 @@ import Stack from '@mui/material/Stack';
 import styled from "styled-components";
 import CanvasJSReact from '../canvasjs.react';
 
-//var CanvasJSReact = require('./canvasjs.react');
-var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-var options;
 
 function Casual(props) {
   // boolean for when polygonCoor has been populated and is ready to render
@@ -21,7 +18,8 @@ function Casual(props) {
   // this is where all of the values for the polygons will be kept
   const [polygonCoor, setPolygonCoor] = useState([]);
   const [legendDataType, setLegendDataType] = useState("cases");
-  const [update, setUpdate] = useState(0);
+
+  const [counties] = useState([44001, 44003, 44005, 44007, 44009]);
 
   // originally, the coordinates are in the wrong format. 
   // makes coordinates [x,y] => [y,x]
@@ -51,313 +49,93 @@ function Casual(props) {
     }
   }, []);
 
-  // sets the polygonCoor with the data fetched from the backend. also sets id and color
+  // sets the polygonCoor with the data fetched from the backend
   // new parameters can be added here
   const setCoor = useCallback((coor, data) => {
 
-    let polygons = [
-      {
-        "id": 44001,
-        "color": "#ffffff",
-        "coordinates": coor[0].geometry.coordinates,
-        "cases": "",
-        "county_name": "",
-        "total_deaths": "",
-        "total_hospital": "",
-        "total_vaccinated": "",
-        "case_rate": "",
-        "vaccination_rate": "",
-        "death_rate": "",
-        "options":
-        {
+    let polygons = counties.map((fips, index) => {
+      let currData = data[index];
+      return {
+        id: fips,
+        coordinates: coor[index].geometry.coordinates,
+        cases: currData.total_cases,
+        county_name: currData.county_name,
+        total_deaths: currData.total_deaths,
+        total_hospital: currData.total_hospital,
+        total_vaccinated: currData.total_vaccinated,
+        case_rate: currData.case_rate_per_100k,
+        vaccination_rate: currData.vaccinated_rate_per_100k,
+        death_rate: currData.death_rate_per_100k,
+        options: {
           title: {
-            text: ""
+            text: `Covid-19 Data For: ${currData.county_name}`
           },
           data: [{
             type: "column",
             dataPoints: [
-              { label: "Total Cases", y: "" },
-              { label: "Total Vaccination", y: "" },
-              { label: "Total Hospitalized", y: "" },
-              { label: "Total Deaths", y: "" }
-            ]
-          }]
-        }
-      },
-      {
-        "id": 44003,
-        "color": "#ffffff",
-        "coordinates": coor[1].geometry.coordinates,
-        "cases": "",
-        "county_name": "",
-        "total_deaths": "",
-        "total_hospital": "",
-        "total_vaccinated": "",
-        "case_rate": "",
-        "vaccination_rate": "",
-        "death_rate": "",
-        "options":
-        {
-          title: {
-            text: ""
-          },
-          data: [{
-            type: "column",
-            dataPoints: [
-              { label: "Total Cases", y: "" },
-              { label: "Total Vaccination", y: "" },
-              { label: "Total Hospitalized", y: "" },
-              { label: "Total Deaths", y: "" }
-            ]
-          }]
-        }
-      },
-      {
-        "id": 44005,
-        "color": "#ffffff",
-        "coordinates": coor[2].geometry.coordinates,
-        "cases": "",
-        "county_name": "",
-        "total_deaths": "",
-        "total_hospital": "",
-        "total_vaccinated": "",
-        "case_rate": "",
-        "vaccination_rate": "",
-        "death_rate": "",
-        "options":
-        {
-          title: {
-            text: ""
-          },
-          data: [{
-            type: "column",
-            dataPoints: [
-              { label: "Total Cases", y: "" },
-              { label: "Total Vaccination", y: "" },
-              { label: "Total Hospitalized", y: "" },
-              { label: "Total Deaths", y: "" }
-            ]
-          }]
-        }
-      },
-      {
-        "id": 44007,
-        "color": "#ffffff",
-        "coordinates": coor[3].geometry.coordinates,
-        "cases": "",
-        "county_name": "",
-        "total_deaths": "",
-        "total_hospital": "",
-        "total_vaccinated": "",
-        "case_rate": "",
-        "vaccination_rate": "",
-        "death_rate": "",
-        "options":
-        {
-          title: {
-            text: ""
-          },
-          data: [{
-            type: "column",
-            dataPoints: [
-              { label: "Total Cases", y: "" },
-              { label: "Total Vaccination", y: "" },
-              { label: "Total Hospitalized", y: "" },
-              { label: "Total Deaths", y: "" }
-            ]
-          }]
-        }
-      },
-      {
-        "id": 44009,
-        "color": "#ffffff",
-        "coordinates": coor[4].geometry.coordinates,
-        "cases": "",
-        "county_name": "",
-        "total_deaths": "",
-        "total_hospital": "",
-        "total_vaccinated": "",
-        "case_rate": "",
-        "vaccination_rate": "",
-        "death_rate": "",
-        "options":
-        {
-          title: {
-            text: ""
-          },
-          data: [{
-            type: "column",
-            dataPoints: [
-              { label: "Total Cases", y: "" },
-              { label: "Total Vaccination", y: "" },
-              { label: "Total Hospitalized", y: "" },
-              { label: "Total Deaths", y: "" }
+              { label: "Total Cases", y: currData.total_cases },
+              { label: "Total Vaccination", y: currData.total_vaccinated },
+              { label: "Total Hospitalized", y: currData.total_hospital },
+              { label: "Total Deaths", y: currData.total_deaths }
             ]
           }]
         }
       }
-    ];
+    });
 
-    for (let currData of data) {
-      for (let currPoly of polygons) {
-        if (currData.fips === currPoly.id) {
-          currPoly.cases = currData.total_cases;
-          currPoly.county_name = currData.county_name;
-          currPoly.total_deaths = currData.total_deaths;
-          currPoly.total_hospital = currData.total_hospital;
-          currPoly.total_vaccinated = currData.total_vaccinated;
-          currPoly.case_rate = currData.case_rate_per_100k;
-          currPoly.vaccination_rate = currData.vaccinated_rate_per_100k;
-          currPoly.death_rate = currData.death_rate_per_100k;
-          currPoly.options.title.text = "Covid-19 Data For: " + currData.county_name;
-          currPoly.options.data[0].dataPoints[0].y = currData.total_cases;
-          currPoly.options.data[0].dataPoints[1].y = currData.total_vaccinated;
-          currPoly.options.data[0].dataPoints[2].y = currData.total_hospital;
-          currPoly.options.data[0].dataPoints[3].y = currData.total_deaths;
-          if (legendDataType === "cases") {
-            switch (true) {
-              case (currPoly.case_rate >= 16000):
-                currPoly.color = "#FF0000";
-                break;
-              case (currPoly.case_rate >= 12000):
-                currPoly.color = "#FF5700";
-                break;
-              case (currPoly.case_rate >= 8000):
-                currPoly.color = "#FFE400";
-                break;
-              case (currPoly.case_rate >= 4000):
-                currPoly.color = "#6AFF00";
-                break;
-              case (currPoly.case_rate >= 0):
-                currPoly.color = "#00FF00";
-                break;
-              default:
-                currPoly.color = "#ffffff";
-                break;
-            }
-          }
-          else if (legendDataType === "vaccinations") {
-            switch (true) {
-              case (currPoly.vaccination_rate >= 800):
-                currPoly.color = "#FF0000";
-                break;
-              case (currPoly.vaccination_rate >= 600):
-                currPoly.color = "#FF5700";
-                break;
-              case (currPoly.vaccination_rate >= 400):
-                currPoly.color = "#FFE400";
-                break;
-              case (currPoly.vaccination_rate >= 200):
-                currPoly.color = "#6AFF00";
-                break;
-              case (currPoly.vaccination_rate >= 0):
-                currPoly.color = "#00FF00";
-                break;
-              default:
-                currPoly.color = "#ffffff";
-                break;
-            }
-          }
-          else if (legendDataType === "deaths") {
-            switch (true) {
-              case (currPoly.death_rate >= 400):
-                currPoly.color = "#FF0000";
-                break;
-              case (currPoly.death_rate >= 350):
-                currPoly.color = "#FF5700";
-                break;
-              case (currPoly.death_rate >= 200):
-                currPoly.color = "#FFE400";
-                break;
-              case (currPoly.death_rate >= 100):
-                currPoly.color = "#6AFF00";
-                break;
-              case (currPoly.death_rate >= 0):
-                currPoly.color = "#00FF00";
-                break;
-              default:
-                currPoly.color = "#ffffff";
-                break;
-            }
-          }
-        }
-      }
-    }
     setPolygonCoor(polygons);
-  }, []);
+  }, [counties]);
 
-  const updateCoor = () => {
-    for (let currPoly of polygonCoor) {
-      if (legendDataType === "cases") {
-        switch (true) {
-          case (currPoly.case_rate >= 100000):
-            currPoly.color = "#FF0000";
-            break;
-          case (currPoly.case_rate >= 75000):
-            currPoly.color = "#FF5700";
-            break;
-          case (currPoly.case_rate >= 50000):
-            currPoly.color = "#FFE400";
-            break;
-          case (currPoly.case_rate >= 25000):
-            currPoly.color = "#6AFF00";
-            break;
-          case (currPoly.case_rate >= 0):
-            currPoly.color = "#00FF00";
-            break;
-          default:
-            currPoly.color = "#ffffff";
-            break;
-        }
-      }
-
-      else if (legendDataType === "vaccinations") {
-        switch (true) {
-          case (currPoly.vaccination_rate >= 6000):
-            currPoly.color = "#FF0000";
-            break;
-          case (currPoly.vaccination_rate >= 4500):
-            currPoly.color = "#FF5700";
-            break;
-          case (currPoly.vaccination_rate >= 3000):
-            currPoly.color = "#FFE400";
-            break;
-          case (currPoly.vaccination_rate >= 1500):
-            currPoly.color = "#6AFF00";
-            break;
-          case (currPoly.vaccination_rate >= 0):
-            currPoly.color = "#00FF00";
-            break;
-          default:
-            currPoly.color = "#ffffff";
-            break;
-        }
-      }
-
-      else if (legendDataType === "deaths") {
-        switch (true) {
-          case (currPoly.death_rate >= 3000):
-            currPoly.color = "#FF0000";
-            break;
-          case (currPoly.death_rate >= 2250):
-            currPoly.color = "#FF5700";
-            break;
-          case (currPoly.death_rate >= 1500):
-            currPoly.color = "#FFE400";
-            break;
-          case (currPoly.death_rate >= 750):
-            currPoly.color = "#6AFF00";
-            break;
-          case (currPoly.death_rate >= 0):
-            currPoly.color = "#00FF00";
-            break;
-          default:
-            currPoly.color = "#ffffff";
-            break;
-        }
+  // Sets the colors of the polygons based on the current legend
+  const polygonColor = (currPoly) => {
+    if (legendDataType === "cases") {
+      switch (true) {
+        case (currPoly.case_rate >= 16000):
+          return "#FF0000";
+        case (currPoly.case_rate >= 12000):
+          return "#FF5700";
+        case (currPoly.case_rate >= 8000):
+          return "#FFE400";
+        case (currPoly.case_rate >= 4000):
+          return "#6AFF00";
+        case (currPoly.case_rate >= 0):
+          return "#00FF00";
+        default:
+          return "#ffffff";
       }
     }
-    setUpdate(update + 1);
+    else if (legendDataType === "vaccinations") {
+      switch (true) {
+        case (currPoly.vaccination_rate >= 800):
+          return "#FF0000";
+        case (currPoly.vaccination_rate >= 600):
+          return "#FF5700";
+        case (currPoly.vaccination_rate >= 400):
+          return "#FFE400";
+        case (currPoly.vaccination_rate >= 200):
+          return "#6AFF00";
+        case (currPoly.vaccination_rate >= 0):
+          return "#00FF00";
+        default:
+          return "#ffffff";
+      }
+    }
+    else if (legendDataType === "deaths") {
+      switch (true) {
+        case (currPoly.death_rate >= 400):
+          return "#FF0000";
+        case (currPoly.death_rate >= 350):
+          return "#FF5700";
+        case (currPoly.death_rate >= 200):
+          return "#FFE400";
+        case (currPoly.death_rate >= 100):
+          return "#6AFF00";
+        case (currPoly.death_rate >= 0):
+          return "#00FF00";
+        default:
+          return "#ffffff";
+      }
+    }
   }
 
   useEffect(() => {
@@ -366,7 +144,6 @@ function Casual(props) {
       swapCoor(responses.data);
 
       // Load county data
-      const counties = [44001, 44003, 44005, 44007, 44009]
       Promise.all(counties.map(fips =>
         fetch(`http://localhost:5000/county/${fips}`, {
           headers: {
@@ -382,7 +159,7 @@ function Casual(props) {
     };
 
     getCoor();
-  }, [setCoor, swapCoor, legendDataType, update]);
+  }, [counties, setCoor, swapCoor]);
 
   //Style the pop-up in map
   const StyledPop = styled(Popup)`
@@ -411,15 +188,12 @@ border-radius: 0;
           }}>
             <Button variant="contained" size="small" onClick={() => {
               setLegendDataType("cases");
-              updateCoor();
             }}>Case Rate</Button>
             <Button variant="contained" size="small" onClick={() => {
               setLegendDataType("vaccinations");
-              updateCoor();
             }}>Vaccination Rate</Button>
             <Button variant="contained" size="small" onClick={() => {
               setLegendDataType("deaths");
-              updateCoor();
             }}>Death Rate</Button>
           </Stack>
           <Legend dataType={legendDataType} />
@@ -429,7 +203,7 @@ border-radius: 0;
           />
           {polygonCoor
             ? polygonCoor.map((coor) => (
-              <Polygon positions={coor.coordinates} color={coor.color} key={coor.id}>
+              <Polygon positions={coor.coordinates} pathOptions={{ color:polygonColor(coor) }} key={coor.id}>
                 <StyledPop>
                   <h2> {coor.county_name} </h2>
                   Case Rate: {coor.case_rate} <br></br>
