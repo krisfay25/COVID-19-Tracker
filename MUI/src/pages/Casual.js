@@ -351,6 +351,9 @@ border-radius: 0;
               <Polygon positions={coor.coordinates} pathOptions={{ color:polygonColor(coor) }} key={coor.id}>
                 <StyledPop>
                   <h2> {coor.county_name} </h2>
+                  Note: Rates are given per 100,000 population.
+                  <br></br>
+                  <br></br>
                   {legendDataType == "cases"
                     ? <div class="rates">Case Rate: {coor.case_rate} <br></br></div>
                     : <>Case Rate: {coor.case_rate} <br></br></>}
