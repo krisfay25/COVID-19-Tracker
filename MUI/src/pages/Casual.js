@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import styled from "styled-components";
 import CanvasJSReact from '../canvasjs.react';
+import SlidingPanel from 'react-sliding-side-panel';
 
 //var CanvasJSReact = require('./canvasjs.react');
 var CanvasJS = CanvasJSReact.CanvasJS;
@@ -20,7 +21,11 @@ function Casual(props) {
   const [ready, setReady] = useState(false);
   // this is where all of the values for the polygons will be kept
   const [polygonCoor, setPolygonCoor] = useState([]);
+  //this where the data will be stored within the graphs
+  const [dataGraph, setDataGraph] = useState([]);
   const [legendDataType, setLegendDataType] = useState("cases");
+  //this is the side panel that will hold graphs and county data
+  const [openPanel, setOpenPanel] = useState(false);
 
   // originally, the coordinates are in the wrong format. 
   // makes coordinates [x,y] => [y,x]
@@ -50,10 +55,147 @@ function Casual(props) {
     }
   }, []);
 
+  const setGraph = useCallback((graph_, data) => {
+    let graphs = [
+      {
+        "case_rates":
+        {
+          title: {
+            text: "Case Rates"
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "", y: "" },
+              { label: "", y: "" },
+              { label: "", y: "" },
+              { label: "", y: "" },
+              { label: "", y: "" }
+            ]
+          }]
+        }
+      },
+      {
+        "vaccination_rates":
+        {
+          title: {
+            text: "Vaccination Rates"
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "", y: "" },
+              { label: "", y: "" },
+              { label: "", y: "" },
+              { label: "", y: "" },
+              { label: "", y: "" }
+            ]
+          }]
+        }
+      },
+      {
+        "death_rates":
+        {
+          title: {
+            text: "Death Rates"
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { label: "", y: "" },
+              { label: "", y: "" },
+              { label: "", y: "" },
+              { label: "", y: "" },
+              { label: "", y: "" }
+            ]
+          }]
+        }
+      }
+    ]
+
+    for (let currData of data) {
+      for (let currGraphs of graphs) {
+
+        //Case Rates Section
+        if (currGraphs.case_rates) {
+          if (currData.fips === 44001) {
+            currGraphs.case_rates.data[0].dataPoints[0].label = currData.county_name;
+            currGraphs.case_rates.data[0].dataPoints[0].y = currData.case_rate_per_100k;
+          }
+          if (currData.fips === 44003) {
+            currGraphs.case_rates.data[0].dataPoints[1].label = currData.county_name;
+            currGraphs.case_rates.data[0].dataPoints[1].y = currData.case_rate_per_100k;
+          }
+          if (currData.fips === 44005) {
+            currGraphs.case_rates.data[0].dataPoints[2].label = currData.county_name;
+            currGraphs.case_rates.data[0].dataPoints[2].y = currData.case_rate_per_100k;
+          }
+          if (currData.fips === 44007) {
+            currGraphs.case_rates.data[0].dataPoints[3].label = currData.county_name;
+            currGraphs.case_rates.data[0].dataPoints[3].y = currData.case_rate_per_100k;
+          }
+          if (currData.fips === 44009) {
+            currGraphs.case_rates.data[0].dataPoints[4].label = currData.county_name;
+            currGraphs.case_rates.data[0].dataPoints[4].y = currData.case_rate_per_100k;
+          }
+        }
+
+        //Vaccination Rate section
+        if (currGraphs.vaccination_rates) {
+          if (currData.fips === 44001) {
+            currGraphs.vaccination_rates.data[0].dataPoints[0].label = currData.county_name;
+            currGraphs.vaccination_rates.data[0].dataPoints[0].y = currData.vaccinated_rate_per_100k;
+          }
+          if (currData.fips === 44003) {
+            currGraphs.vaccination_rates.data[0].dataPoints[1].label = currData.county_name;
+            currGraphs.vaccination_rates.data[0].dataPoints[1].y = currData.vaccinated_rate_per_100k;
+          }
+          if (currData.fips === 44005) {
+            currGraphs.vaccination_rates.data[0].dataPoints[2].label = currData.county_name;
+            currGraphs.vaccination_rates.data[0].dataPoints[2].y = currData.vaccinated_rate_per_100k;
+          }
+          if (currData.fips === 44007) {
+            currGraphs.vaccination_rates.data[0].dataPoints[3].label = currData.county_name;
+            currGraphs.vaccination_rates.data[0].dataPoints[3].y = currData.vaccinated_rate_per_100k;
+          }
+          if (currData.fips === 44009) {
+            currGraphs.vaccination_rates.data[0].dataPoints[4].label = currData.county_name;
+            currGraphs.vaccination_rates.data[0].dataPoints[4].y = currData.vaccinated_rate_per_100k;
+          }
+        }
+
+        //Death Rates Section
+        console.log("Death Rates");
+        if (currGraphs.death_rates) {
+          if (currData.fips === 44001) {
+            currGraphs.death_rates.data[0].dataPoints[0].label = currData.county_name;
+            currGraphs.death_rates.data[0].dataPoints[0].y = currData.death_rate_per_100k;
+          }
+          if (currData.fips === 44003) {
+            currGraphs.death_rates.data[0].dataPoints[1].label = currData.county_name;
+            currGraphs.death_rates.data[0].dataPoints[1].y = currData.death_rate_per_100k;
+          }
+          if (currData.fips === 44005) {
+            currGraphs.death_rates.data[0].dataPoints[2].label = currData.county_name;
+            currGraphs.death_rates.data[0].dataPoints[2].y = currData.death_rate_per_100k;
+          }
+          if (currData.fips === 44007) {
+            currGraphs.death_rates.data[0].dataPoints[3].label = currData.county_name;
+            currGraphs.death_rates.data[0].dataPoints[3].y = currData.death_rate_per_100k;
+          }
+          if (currData.fips === 44009) {
+            currGraphs.death_rates.data[0].dataPoints[4].label = currData.county_name;
+            currGraphs.death_rates.data[0].dataPoints[4].y = currData.death_rate_per_100k;
+          }
+        }
+      }
+    }
+    setDataGraph(graphs);
+  })
+
   // sets the polygonCoor with the data fetched from the backend. also sets id and color
   // new parameters can be added here
   const setCoor = useCallback((coor, data) => {
-
     let polygons = [
       {
         "id": 44001,
@@ -302,6 +444,7 @@ function Casual(props) {
           .then(response => response.json())
       )).then(data => {
         setCoor(responses.data, data);
+        setGraph(responses.data, data);
         setReady(true);
       });
     };
@@ -354,34 +497,51 @@ border-radius: 0;
               <Polygon positions={coor.coordinates} color={coor.color} key={coor.id}>
                 <StyledPop>
                   <h2> {coor.county_name} </h2>
-                  Case Rate: {coor.case_rate} <br></br>
-                  Vaccination Rate: {coor.vaccination_rate} <br></br>
-                  Death Rate: {coor.death_rate} <br></br>
+                  {legendDataType == "cases"
+                    ? <div class="rates">Case Rate: {coor.case_rate} <br></br></div>
+                    : <>Case Rate: {coor.case_rate} <br></br></>}
+
+                  {legendDataType == "vaccinations"
+                    ? <div class="rates"> Vaccination Rate: {coor.vaccination_rate}<br></br></div>
+                    : <> Vaccination Rate: {coor.vaccination_rate} <br></br></>}
+
+                  {legendDataType == "deaths"
+                    ? <div class="rates"> Death Rate: {coor.death_rate} <br></br></div>
+                    : <> Death Rate: {coor.death_rate} <br></br></>}
+
                   Number of cases: {coor.cases} <br></br>
                   Total Vaccinated: {coor.total_vaccinated} <br></br>
                   Total Hospitalized: {coor.total_hospital} <br></br>
-                  Total Deaths: {coor.total_deaths}
+                  Total Deaths: {coor.total_deaths}<br></br>
                   <br></br>
+                  <h3>Click "Open" to visualize rates compared to other counties in graph format.</h3>
+                  <button class="square_btn" onClick={() => setOpenPanel(true)}>Open</button>
                   <br></br>
-                  Pick a graph to visualize:
-                  <br></br>
-                  {/* -------------------- */}
-                  <div class="dropdown">
-                    <button class="dropbtn">Select Graph</button>
-                    <div class="dropdown-content">
-                      <a class="myDIV">Case Rates</a>
-                      <div class="hide"> <CanvasJSChart options={coor.options} /> </div>
-                      <a href="#">Vaccination Rates</a>
-                      <a href="#">Death Rates</a>
-                      <a href="#">Total Number of Cases</a>
-                      <a href="#">Total Vaccinated</a>
-                      <a href="#">Total Hospitalized</a>
-                      <a href="#">Total Deaths</a>
+                </StyledPop>
+
+                <SlidingPanel
+                  type={'left'}
+                  isOpen={openPanel}
+                  size={35}
+                >
+                  <div>
+                    <button class="btn_position" onClick={() => setOpenPanel(false)}>close</button>
+                    <div>
+                      {legendDataType == "cases"
+                        ? <CanvasJSChart options={dataGraph[0].case_rates} />
+                        : <></>}
+
+                      {legendDataType == "vaccinations"
+                        ? <CanvasJSChart options={dataGraph[1].vaccination_rates} />
+                        : <></>}
+
+                      {legendDataType == "deaths"
+                        ? <CanvasJSChart options={dataGraph[2].death_rates} />
+                        : <></>}
                     </div>
                   </div>
+                </SlidingPanel>
 
-                  {/* <CanvasJSChart options={coor.options} /> */}
-                </StyledPop>
               </Polygon>
             ))
             : <></>
