@@ -1,9 +1,19 @@
 # File that cleans the .csv data files for Rhode Island COVID-19 Data and inserts rows into database table
 #
 # CMSC 447 Team 1 - Fall 2021
-#
-# NOT FINISHED DO NOT DOWNLOAD
 
+import sys
+import subprocess
+import pkg_resources
+
+required = {'mysql-connector-python'} 
+installed = {pkg.key for pkg in pkg_resources.working_set}
+missing = required - installed
+
+
+if missing:
+    # implement pip as a subprocess:
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install',*missing])
 
 import pandas as pd
 import counties_municipalities
@@ -19,7 +29,25 @@ rhode_island_fips = {"Kent County": 44003,
 
 state_ids = {"Rhode Island": 44}
 
-# Thid function adds states to the "State" table
+month_to_num = {'January': 1, 'February': 2, 'March': 3,
+    'April': 4, 'May': 5, 'June': 6, 'July': 7, 'August': 8,
+    'September': 9, 'October': 10, 'November': 11, 'December': 12}
+
+num_to_months = {'1': 'January', '2': 'February', '3': "March",
+'4': "April", '5': 'May', '6': 'June', '7': 'July', '8': 'August',
+'9': 'September', '10': 'October', '11': 'November', '12': 'December'}
+
+days_in_months = {'1': 31, '2': 28, '3': 31,
+'4': 30, '5': 31, '6': 30, '7': 31, '8': 31,
+'9': 30, '10': 31, '11': 30, '12': 31}
+
+num_municips_in_county = {'Kent County': 5,
+                         'Newport County': 6,
+                         'Bristol County': 3,
+                         'Providence County': 16,
+                         'Washington County': 9}
+
+# This function adds states to the "State" table
 def add_states():
     
     #Establish parameters for connection to database
@@ -41,17 +69,12 @@ def add_states():
     # Inserts each row into table in database
     for key in state_ids:
         
-        #print("start: " + str(i))
-        
-        #print(json.dumps(county_json['features'][i]))
-        
         query = f''' INSERT INTO State VALUES ({state_ids[key]}, "{key}"); '''
         
         # Execute query and commit to database
         cur.execute(query)
         db_connection.commit()
         
-        #print("end: " + str(i))
     
     # Closes database connection and closes cursor
     cur.close()
@@ -101,9 +124,15 @@ def clean_municipality_data():
     for col in RI_data.columns:
         if 'County' not in col and "Last Updated" not in col:
             RI_data[col] = RI_data[col].astype('int')
-
-    # Group by County name
-    RI_data = RI_data.groupby(by='County', as_index=False).sum()
+    
+    RI_data = RI_data.groupby(by='County', as_index=False).agg({'Total Cases (may count people more than once)':'sum',
+                                     'Rate of COVID-19 cases per 100,000 population':'mean',
+                                     'Total hospitalizations':'sum',
+                                     'Rate of hospitalizations per 100,000 population':'mean',
+                                     'Total deaths':'sum',
+                                     'Rate of deaths per 100,000 population':'mean',
+                                     'Total number of people who have completed primary vaccine series':'sum',
+                                     'Rate of people who have completed primary vaccine series per 100,000 population':'mean'})
 
     RI_data['fips'] = RI_data['County'].map(rhode_island_fips)
 
@@ -113,6 +142,7 @@ def clean_municipality_data():
     RI_data = RI_data[cols]
 
     RI_data["Last Updated"] = last_updated_date
+
 
     #Establish parameters for connection to database
     config = {
@@ -171,96 +201,10 @@ def clean_municipality_data():
         "{records[i][10]}"); '''
 
         # Execute query and commit to database
-        cur.execute(query, (json_serialized,))
+        cur.execute(query, (json_serialized,)) 
+        
         db_connection.commit()
 
-    # Closes database connection and closes cursor
-    cur.close()
-    db_connection.close()
-
-    print("Municipality data inserted.")
-
-
-
-    # Reads csv
-    RI_data = pd.read_csv('COVID-19 Rhode Island Data - Municipality.csv')
-
-    # Deletes the rows that do not correspond to a municipality
-    RI_data.drop(labels=[39, 40, 41, 42, 43, 44, 45], axis=0, inplace=True)
-
-    # Changes values of '<5' with 3
-    # Values of '<5' could be 1, 2, 3, 4, 5.  So assume the average number.
-    RI_data = RI_data.replace('<5', 3)
-
-    # Changes values of '--' with 0
-    RI_data = RI_data.replace('--', 0)  
-
-    counties = pd.DataFrame(list(zip(counties_municipalities.rhode_island_counties, 
-                                    counties_municipalities.rhode_island_municipalities)),
-                            columns=['County', 'Municipality of residence'])
-
-    # Merge dataframes 
-    RI_data = RI_data.merge(counties, on='Municipality of residence', how='right')
-
-    # Reorder the columns
-    cols = RI_data.columns.tolist()
-    cols = cols[-1:] + cols[:-1]
-    RI_data = RI_data[cols]
-
-    #Establish parameters for connection to database
-    config = {
-    'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
-    'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
-    'host': 'localhost',
-    'port': 3306,
-    'database': 'RI_DATA',
-    'raise_on_warnings': True                    
-    }
-
-    #Establish connection to database
-    db_connection = mysql.connector.connect(**config)
-
-    #Establishes a cursor
-    cur = db_connection.cursor()
-
-    result = RI_data.to_json()
-    RI_json = json.loads(result)
-
-    counter = 0
-    num_rows = 0
-
-    # Gets number of rows
-    for row in RI_json:
-        num_rows = len(RI_json[row])
-        break
-        
-    records = []
-
-    # Turns json dictionary into 2-dimensional list of rows
-    for i in range(num_rows):
-        curr_row = []
-        for row in RI_json:
-            curr_row.append(RI_json[row].get(str(i)))
-            
-        records.append(curr_row)
-        
-    # Inserts each row into table in database
-    for i in range(len(records)):
-        query = f''' INSERT INTO Municipality VALUES ("{records[i][0]}",
-        "{records[i][1]}",
-        {int(records[i][2])},
-        {int(records[i][3])},
-        {int(records[i][4])},
-        {int(records[i][5])},
-        {int(records[i][6])},
-        {int(records[i][7])},
-        {int(records[i][8])},
-        {int(records[i][9])}); '''
-        
-        # Execute query and commit to database
-        cur.execute(query)
-        db_connection.commit()
-    
     # Closes database connection and closes cursor
     cur.close()
     db_connection.close()
@@ -270,7 +214,7 @@ def clean_municipality_data():
 # This function cleans data for the 'Monthly_cases' table
 # RATE DATA
 def clean_infection_rate_data():
-
+    
     # Reads csv
     monthly_case_data = pd.read_csv('COVID-19 Rhode Island Data - Monthly Case Rates by Municipality.csv')
     
@@ -319,7 +263,7 @@ def clean_infection_rate_data():
             monthly_case_data[col] = monthly_case_data[col].astype('int')
 
     # Group by County name
-    monthly_case_data = monthly_case_data.groupby(by='County', as_index=False).sum()
+    monthly_case_data = monthly_case_data.groupby(by='County', as_index=False).mean()
     
     monthly_case_data['fips'] = monthly_case_data['County'].map(rhode_island_fips)
     
@@ -333,6 +277,7 @@ def clean_infection_rate_data():
     monthly_case_data["Last Updated"] = last_updated_date
     
     return monthly_case_data
+
 
 # This function cleans data for the 'Monthly_cases' table
 # NUM DATA
@@ -455,7 +400,7 @@ def clean_vaccination_rate_data():
             vax_data[col] = vax_data[col].astype('int')
 
     # Group by County name
-    vax_data = vax_data.groupby(by='County', as_index=False).sum()
+    vax_data = vax_data.groupby(by='County', as_index=False).mean()
     
     vax_data['fips'] = vax_data['County'].map(rhode_island_fips)
     
@@ -773,7 +718,7 @@ def clean_death_rate_data():
             monthly_death_data[col] = monthly_death_data[col].astype('int')
 
     # Group by County name
-    monthly_death_data = monthly_death_data.groupby(by='County', as_index=False).sum()
+    monthly_death_data = monthly_death_data.groupby(by='County', as_index=False).mean()
 
     monthly_death_data['fips'] = monthly_death_data['County'].map(rhode_island_fips)
 
@@ -788,7 +733,6 @@ def clean_death_rate_data():
 
 
     return monthly_death_data
-
 
 # This function cleans and inserts the data for the 'Monthly_Hospital' table
 # NUM DATA
@@ -910,7 +854,7 @@ def clean_hospit_rate_data():
             monthly_hospit_data[col] = monthly_hospit_data[col].astype('int')
 
     # Group by County name
-    monthly_hospit_data = monthly_hospit_data.groupby(by='County', as_index=False).sum()
+    monthly_hospit_data = monthly_hospit_data.groupby(by='County', as_index=False).mean()
 
     monthly_hospit_data['fips'] = monthly_hospit_data['County'].map(rhode_island_fips)
 
