@@ -9,8 +9,6 @@ import ListItemText from '@mui/material/ListItemText';
 import DoubleButton from './DoubleButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import './TemporaryDrawer.css';
-import { GraphSwitch } from './GraphSwitch';
-import { MapSwitch } from './MapSwitch';
 
 export default function TemporaryDrawer() {
   const [open, setOpen] = useState(false);
@@ -30,12 +28,11 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Switch View','Toggle Graphs', 'Toggle Maps'].map((text, index) => (
+        {['Switch View'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemText primary={text} />
             <ListItemIcon>
-              {index === 0 ?  <DoubleButton/>
-                : (index === 1 ? <GraphSwitch/> : <MapSwitch/>)}
+              <DoubleButton/>
             </ListItemIcon>
           </ListItem>
         ))}
