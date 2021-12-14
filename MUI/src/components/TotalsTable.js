@@ -15,6 +15,7 @@ export const TotalsTable = ({data}) => {
         { headerName: 'Case Rate', field: 'case_rate_per_100k', width: 160 },
         { headerName: 'Death Rate', field: 'death_rate_per_100k', width: 160 },
         { headerName: 'Hospitalization Rate', field: 'hospital_rate_per_100k', width: 160 },
+        { headerName: 'Vaccination Rate', field: 'vaccinated_rate_per_100k', width: 160 },
         { headerName: 'Last Updated', field: 'last_updated_timestamp', width: 160 }
     ];
 
