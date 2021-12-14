@@ -7,35 +7,35 @@ const Legend = ({ dataType }) => {
     const legendList = [
         new LegendItem(
             dataType === "cases" ? "16,000+" :
-                dataType === "vaccinations" ? "800+" :
+                dataType === "vaccinations" ? "60,000-62,499" :
                     "400+",
             "#FF0000",
             (cases) => cases >= 100000
         ),
         new LegendItem(
             dataType === "cases" ? "12,000-15,999" :
-                dataType === "vaccinations" ? "600-799" :
+                dataType === "vaccinations" ? "62,500-64,999" :
                     "300-399",
             "#FF5700",
             (cases) => cases >= 75000 && cases <= 99999
         ),
         new LegendItem(
             dataType === "cases" ? "8,000-11,999" :
-                dataType === "vaccinations" ? "400-599" :
+                dataType === "vaccinations" ? "65,000-67,499" :
                     "200-299",
             "#FFE400",
             (cases) => cases >= 50000 && cases <= 74999
         ),
         new LegendItem(
             dataType === "cases" ? "4,000-7,999" :
-                dataType === "vaccinations" ? "200-399" :
+                dataType === "vaccinations" ? "67,500-69,999" :
                     "100-199",
             "#6AFF00",
             (cases) => cases >= 25000 && cases <= 49999
         ),
         new LegendItem(
             dataType === "cases" ? "0-3,999" :
-                dataType === "vaccinations" ? "0-199" :
+                dataType === "vaccinations" ? "70,000+" :
                     "0-99",
             "#00FF00",
             (cases) => cases >= 0

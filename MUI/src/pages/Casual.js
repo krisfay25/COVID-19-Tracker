@@ -249,25 +249,26 @@ function Casual(props) {
     }
     else if (legendDataType === "vaccinations") {
       switch (true) {
-        case (currPoly.vaccination_rate >= 800):
-          return "#FF0000";
-        case (currPoly.vaccination_rate >= 600):
-          return "#FF5700";
-        case (currPoly.vaccination_rate >= 400):
-          return "#FFE400";
-        case (currPoly.vaccination_rate >= 200):
-          return "#6AFF00";
-        case (currPoly.vaccination_rate >= 0):
+        case (currPoly.vaccination_rate >= 70000):
           return "#00FF00";
+        case (currPoly.vaccination_rate >= 67500):
+          return "#6AFF00";
+        case (currPoly.vaccination_rate >= 65000):
+          return "#FFE400";
+        case (currPoly.vaccination_rate >= 62500):
+          return "#FF5700";
+        case (currPoly.vaccination_rate >= 60000):
+          return "#FF0000";
         default:
           return "#ffffff";
       }
     }
     else if (legendDataType === "deaths") {
-      switch (true) {
+      console.log(currPoly.death_rate);
+      switch (true) {  
         case (currPoly.death_rate >= 400):
           return "#FF0000";
-        case (currPoly.death_rate >= 350):
+        case (currPoly.death_rate >= 300):
           return "#FF5700";
         case (currPoly.death_rate >= 200):
           return "#FFE400";
