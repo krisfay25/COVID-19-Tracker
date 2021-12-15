@@ -1,6 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
 import { MapContainer, TileLayer, Polygon, Popup } from 'react-leaflet'
-import React, { Component } from 'react';
 import './leaflet/Casual.css';
 import TemporaryDrawer from '../components/TemporaryDrawer';
 import axios from 'axios';
@@ -19,7 +18,7 @@ function Casual(props) {
   // this is where all of the values for the polygons will be kept
   const [polygonCoor, setPolygonCoor] = useState([]);
   //this where the data will be stored within the graphs
-  const [dataGraph, setDataGraph] = useState([]);
+  const [dataGraph, setDataGraph] = useState({});
   const [legendDataType, setLegendDataType] = useState("cases");
   //this is the side panel that will hold graphs and county data
   const [openPanel, setOpenPanel] = useState(false);
@@ -55,142 +54,50 @@ function Casual(props) {
   }, []);
   
   const setGraph = useCallback((graph_, data) => {
-    let graphs = [
+    let graphs = {};
+
+    // establish the properties of the graphs
+    let graphProperties = [
       {
-        "case_rates":
-        {
-          title: {
-            text: "Case Rates"
-          },
-          data: [{
-            type: "column",
-            dataPoints: [
-              { label: "", y: "" },
-              { label: "", y: "" },
-              { label: "", y: "" },
-              { label: "", y: "" },
-              { label: "", y: "" }
-            ]
-          }]
-        }
+        key: "cases",
+        title: "Case Rates",
+        data: "case_rate_per_100k"
       },
       {
-        "vaccination_rates":
-        {
-          title: {
-            text: "Vaccination Rates"
-          },
-          data: [{
-            type: "column",
-            dataPoints: [
-              { label: "", y: "" },
-              { label: "", y: "" },
-              { label: "", y: "" },
-              { label: "", y: "" },
-              { label: "", y: "" }
-            ]
-          }]
-        }
+        key: "vaccinations",
+        title: "Vaccination Rates",
+        data: "vaccinated_rate_per_100k"
       },
       {
-        "death_rates":
-        {
-          title: {
-            text: "Death Rates"
-          },
-          data: [{
-            type: "column",
-            dataPoints: [
-              { label: "", y: "" },
-              { label: "", y: "" },
-              { label: "", y: "" },
-              { label: "", y: "" },
-              { label: "", y: "" }
-            ]
-          }]
-        }
+        key: "deaths",
+        title: "Death Rates",
+        data: "death_rate_per_100k"
       }
-    ]
+    ];
 
-    for (let currData of data) {
-      for (let currGraphs of graphs) {
+    for (let properties of graphProperties) {
+      // get the data points from each county
+      let points = data.map(county => ({
+        label: county.county_name,
+        y: county[properties.data]
+      }));
 
-        //Case Rates Section
-        if (currGraphs.case_rates) {
-          if (currData.fips === 44001) {
-            currGraphs.case_rates.data[0].dataPoints[0].label = currData.county_name;
-            currGraphs.case_rates.data[0].dataPoints[0].y = currData.case_rate_per_100k;
-          }
-          if (currData.fips === 44003) {
-            currGraphs.case_rates.data[0].dataPoints[1].label = currData.county_name;
-            currGraphs.case_rates.data[0].dataPoints[1].y = currData.case_rate_per_100k;
-          }
-          if (currData.fips === 44005) {
-            currGraphs.case_rates.data[0].dataPoints[2].label = currData.county_name;
-            currGraphs.case_rates.data[0].dataPoints[2].y = currData.case_rate_per_100k;
-          }
-          if (currData.fips === 44007) {
-            currGraphs.case_rates.data[0].dataPoints[3].label = currData.county_name;
-            currGraphs.case_rates.data[0].dataPoints[3].y = currData.case_rate_per_100k;
-          }
-          if (currData.fips === 44009) {
-            currGraphs.case_rates.data[0].dataPoints[4].label = currData.county_name;
-            currGraphs.case_rates.data[0].dataPoints[4].y = currData.case_rate_per_100k;
-          }
-        }
-
-        //Vaccination Rate section
-        if (currGraphs.vaccination_rates) {
-          if (currData.fips === 44001) {
-            currGraphs.vaccination_rates.data[0].dataPoints[0].label = currData.county_name;
-            currGraphs.vaccination_rates.data[0].dataPoints[0].y = currData.vaccinated_rate_per_100k;
-          }
-          if (currData.fips === 44003) {
-            currGraphs.vaccination_rates.data[0].dataPoints[1].label = currData.county_name;
-            currGraphs.vaccination_rates.data[0].dataPoints[1].y = currData.vaccinated_rate_per_100k;
-          }
-          if (currData.fips === 44005) {
-            currGraphs.vaccination_rates.data[0].dataPoints[2].label = currData.county_name;
-            currGraphs.vaccination_rates.data[0].dataPoints[2].y = currData.vaccinated_rate_per_100k;
-          }
-          if (currData.fips === 44007) {
-            currGraphs.vaccination_rates.data[0].dataPoints[3].label = currData.county_name;
-            currGraphs.vaccination_rates.data[0].dataPoints[3].y = currData.vaccinated_rate_per_100k;
-          }
-          if (currData.fips === 44009) {
-            currGraphs.vaccination_rates.data[0].dataPoints[4].label = currData.county_name;
-            currGraphs.vaccination_rates.data[0].dataPoints[4].y = currData.vaccinated_rate_per_100k;
-          }
-        }
-
-        //Death Rates Section
-        console.log("Death Rates");
-        if (currGraphs.death_rates) {
-          if (currData.fips === 44001) {
-            currGraphs.death_rates.data[0].dataPoints[0].label = currData.county_name;
-            currGraphs.death_rates.data[0].dataPoints[0].y = currData.death_rate_per_100k;
-          }
-          if (currData.fips === 44003) {
-            currGraphs.death_rates.data[0].dataPoints[1].label = currData.county_name;
-            currGraphs.death_rates.data[0].dataPoints[1].y = currData.death_rate_per_100k;
-          }
-          if (currData.fips === 44005) {
-            currGraphs.death_rates.data[0].dataPoints[2].label = currData.county_name;
-            currGraphs.death_rates.data[0].dataPoints[2].y = currData.death_rate_per_100k;
-          }
-          if (currData.fips === 44007) {
-            currGraphs.death_rates.data[0].dataPoints[3].label = currData.county_name;
-            currGraphs.death_rates.data[0].dataPoints[3].y = currData.death_rate_per_100k;
-          }
-          if (currData.fips === 44009) {
-            currGraphs.death_rates.data[0].dataPoints[4].label = currData.county_name;
-            currGraphs.death_rates.data[0].dataPoints[4].y = currData.death_rate_per_100k;
-          }
-        }
-      }
+      // create the graph object
+      let graph = {
+        title: {
+          text: properties.title
+        },
+        data: [{
+          type: "column",
+          dataPoints: points
+        }]
+      };
+      // add to the graphs
+      graphs[properties.key] = graph;
     }
+    
     setDataGraph(graphs);
-  })
+  }, [])
   
   // sets the polygonCoor with the data fetched from the backend
   // new parameters can be added here
@@ -264,7 +171,6 @@ function Casual(props) {
       }
     }
     else if (legendDataType === "deaths") {
-      console.log(currPoly.death_rate);
       switch (true) {  
         case (currPoly.death_rate >= 400):
           return "#FF0000";
@@ -285,7 +191,8 @@ function Casual(props) {
   useEffect(() => {
     async function getCoor() {
       const responses = await axios.get("http://localhost:5000/all/geo_json_data");
-      swapCoor(responses.data);
+      let geoJsonData = responses.data;
+      swapCoor(geoJsonData);
 
       // Load county data
       Promise.all(counties.map(fips =>
@@ -296,18 +203,18 @@ function Casual(props) {
           }
         })
           .then(response => response.json())
-      )).then(data => {
-        setCoor(responses.data, data);
-        setGraph(responses.data, data);
+      )).then(dataByCounty => {
+        setCoor(geoJsonData, dataByCounty);
+        setGraph(geoJsonData, dataByCounty);
         setReady(true);
       });
     };
 
     getCoor();
-  }, [counties, setCoor, swapCoor]);
-
-  //Style the pop-up in map
-  const StyledPop = styled(Popup)`
+  }, [counties, setCoor, setGraph, swapCoor]);
+  
+//Style the pop-up in map
+const StyledPop = styled(Popup)`
 width: 70vh;
 border-radius: 0;
 
@@ -354,16 +261,16 @@ border-radius: 0;
                   Note: Rates are given per 100,000 population.
                   <br></br>
                   <br></br>
-                  {legendDataType == "cases"
-                    ? <div class="rates">Case Rate: {coor.case_rate} <br></br></div>
+                  {legendDataType === "cases"
+                    ? <div className="rates">Case Rate: {coor.case_rate} <br></br></div>
                     : <>Case Rate: {coor.case_rate} <br></br></>}
 
-                  {legendDataType == "vaccinations"
-                    ? <div class="rates"> Vaccination Rate: {coor.vaccination_rate}<br></br></div>
+                  {legendDataType === "vaccinations"
+                    ? <div className="rates"> Vaccination Rate: {coor.vaccination_rate}<br></br></div>
                     : <> Vaccination Rate: {coor.vaccination_rate} <br></br></>}
 
-                  {legendDataType == "deaths"
-                    ? <div class="rates"> Death Rate: {coor.death_rate} <br></br></div>
+                  {legendDataType === "deaths"
+                    ? <div className="rates"> Death Rate: {coor.death_rate} <br></br></div>
                     : <> Death Rate: {coor.death_rate} <br></br></>}
 
                   Number of cases: {coor.cases} <br></br>
@@ -372,7 +279,7 @@ border-radius: 0;
                   Total Deaths: {coor.total_deaths}<br></br>
                   <br></br>
                   <h3>Click "Open" to visualize rates compared to other counties in graph format.</h3>
-                  <button class="square_btn" onClick={() => setOpenPanel(true)}>Open</button>
+                  <button className="square_btn" onClick={() => setOpenPanel(true)}>Open</button>
                   <br></br>
                 </StyledPop>
 
@@ -382,19 +289,9 @@ border-radius: 0;
                   size={35}
                 >
                   <div>
-                    <button class="btn_position" onClick={() => setOpenPanel(false)}>close</button>
+                    <button className="btn_position" onClick={() => setOpenPanel(false)}>close</button>
                     <div>
-                      {legendDataType == "cases"
-                        ? <CanvasJSChart options={dataGraph[0].case_rates} />
-                        : <></>}
-
-                      {legendDataType == "vaccinations"
-                        ? <CanvasJSChart options={dataGraph[1].vaccination_rates} />
-                        : <></>}
-
-                      {legendDataType == "deaths"
-                        ? <CanvasJSChart options={dataGraph[2].death_rates} />
-                        : <></>}
+                      <CanvasJSChart options={dataGraph[legendDataType]} />
                     </div>
                   </div>
                 </SlidingPanel>
