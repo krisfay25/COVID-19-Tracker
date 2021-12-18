@@ -6,6 +6,8 @@
 CREATE DATABASE IF NOT EXISTS RI_DATA;
 USE RI_DATA;
 
+DROP TABLE IF EXISTS Monthly_Hospital;
+DROP TABLE IF EXISTS Monthly_Deaths;
 DROP TABLE IF EXISTS Monthly_Cases;
 DROP TABLE IF EXISTS Monthly_Vax_Nums;
 DROP TABLE IF EXISTS Counties;
@@ -33,6 +35,7 @@ CREATE TABLE IF NOT EXISTS Counties
     death_rate_per_100k			INT NOT NULL,
     total_vaccinated			INT NOT NULL,
     vaccinated_rate_per_100k	INT NOT NULL,
+    last_updated_timestamp		VARCHAR(30) NOT NULL,
     PRIMARY KEY(fips),
     FOREIGN KEY(state_id) REFERENCES State(state_id) ON DELETE CASCADE
 );
@@ -40,45 +43,53 @@ CREATE TABLE IF NOT EXISTS Counties
 CREATE TABLE IF NOT EXISTS Monthly_Cases
 (
 	fips 			INT NOT NULL,
-    mar_2020		INT NOT NULL,
-    apr_2020		INT NOT NULL,
-	may_2020		INT NOT NULL,
-    jun_2020		INT NOT NULL,
-    jul_2020		INT NOT NULL,
-    aug_2020		INT NOT NULL,
-    sep_2020		INT NOT NULL,
-    oct_2020		INT NOT NULL,
-    nov_2020		INT NOT NULL,
-    dec_2020		INT NOT NULL,
-    jan_2021		INT NOT NULL,
-    feb_2021		INT NOT NULL,
-    mar_2021		INT NOT NULL,
-    apr_2021		INT NOT NULL,
-    may_2021		INT NOT NULL,
-    jun_2021		INT NOT NULL,
-    jul_2021		INT NOT NULL,
-    aug_2021		INT NOT NULL,
-    sep_2021		INT NOT NULL,
-    total			INT NOT NULL,
-    PRIMARY KEY(fips),
+    infection_month	INT NOT NULL,
+    infection_year	INT NOT NULL,
+    num_cases		INT NOT NULL,
+    rate_cases		INT NOT NULL,
+    last_updated	VARCHAR(30) NOT NULL,
+    PRIMARY KEY(fips, infection_month, infection_year),
     FOREIGN KEY(fips) REFERENCES Counties(fips) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Monthly_Vax_Nums
 (
 	fips 			INT NOT NULL,
-    population		INT NOT NULL,
-    dec_2020		INT NOT NULL,
-    jan_2021		INT NOT NULL,
-    feb_2021		INT NOT NULL,
-    mar_2021		INT NOT NULL,
-    apr_2021		INT NOT NULL,
-    may_2021		INT NOT NULL,
-    jun_2021		INT NOT NULL,
-    jul_2021		INT NOT NULL,
-    aug_2021		INT NOT NULL,
-    sep_2021		INT NOT NULL,
-    oct_2021		INT NOT NULL,
-    PRIMARY KEY(fips),
+    vaxxed_month	INT NOT NULL,
+    vaxxed_year		INT NOT NULL,
+    num_vaxxed		INT NOT NULL,
+    rate_vaxxed		INT NOT NULL,
+    last_updated	VARCHAR(30) NOT NULL,
+    PRIMARY KEY(fips, vaxxed_month, vaxxed_year),
     FOREIGN KEY(fips) REFERENCES Counties(fips) ON DELETE CASCADE			
 );
+
+CREATE TABLE IF NOT EXISTS Monthly_Deaths
+(
+	fips 			INT NOT NULL,
+    death_month		INT NOT NULL,
+    death_year		INT NOT NULL,
+    num_deaths		INT NOT NULL,
+    rate_deaths		INT NOT NULL,
+    last_updated	VARCHAR(30) NOT NULL,
+    PRIMARY KEY(fips, death_month, death_year),
+    FOREIGN KEY(fips) REFERENCES Counties(fips) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Monthly_Hospital
+(
+	fips 			INT NOT NULL,
+    hospit_month	INT NOT NULL,
+    hospit_year		INT NOT NULL,
+    num_hospit		INT NOT NULL,
+    rate_hospit		INT NOT NULL,
+    last_updated	VARCHAR(30) NOT NULL,
+    PRIMARY KEY(fips, hospit_month, hospit_year),
+    FOREIGN KEY(fips) REFERENCES Counties(fips) ON DELETE CASCADE
+);
+
+CREATE INDEX fips_counties ON Counties(fips);
+CREATE INDEX fips_case ON Monthly_Cases(fips);
+CREATE INDEX fips_vaxx ON Monthly_Vax_Nums(fips);
+CREATE INDEX fips_death ON Monthly_Deaths(fips);
+CREATE INDEX fips_hospit ON Monthly_Hospital(fips);

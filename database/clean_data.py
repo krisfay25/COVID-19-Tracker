@@ -6,7 +6,7 @@ import sys
 import subprocess
 import pkg_resources
 
-required = {'mysql-connector-python'} 
+required = {'mysql-connector-python', 'pandas'} 
 installed = {pkg.key for pkg in pkg_resources.working_set}
 missing = required - installed
 
@@ -20,6 +20,16 @@ import counties_municipalities
 import mysql.connector
 from datetime import datetime
 import json
+
+#Establish parameters for connection to database
+config = {
+    'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
+    'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
+    'host': 'localhost',
+    'port': 3306,
+    'database': 'RI_DATA',
+    'raise_on_warnings': True                    
+}
 
 rhode_island_fips = {"Kent County": 44003,
                     "Newport County": 44005,
@@ -49,16 +59,8 @@ num_municips_in_county = {'Kent County': 5,
 
 # This function adds states to the "State" table
 def add_states():
-    
-    #Establish parameters for connection to database
-    config = {
-    'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
-    'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
-    'host': 'localhost',
-    'port': 3306,
-    'database': 'RI_DATA',
-    'raise_on_warnings': True                    
-    }
+
+    global config
     
     #Establish connection to database
     db_connection = mysql.connector.connect(**config)
@@ -84,6 +86,8 @@ def add_states():
 
 # This function cleans and inserts the data for the 'Counties' table
 def clean_municipality_data():
+    global config
+
     county_json = {}
     
     with open('RI_counties_geo.json') as f:
@@ -142,17 +146,6 @@ def clean_municipality_data():
     RI_data = RI_data[cols]
 
     RI_data["Last Updated"] = last_updated_date
-
-
-    #Establish parameters for connection to database
-    config = {
-    'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
-    'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
-    'host': 'localhost',
-    'port': 3306,
-    'database': 'RI_DATA',
-    'raise_on_warnings': True                    
-    }
 
     #Establish connection to database
     db_connection = mysql.connector.connect(**config)
@@ -871,22 +864,13 @@ def clean_hospit_rate_data():
     return monthly_hospit_data
 
 def main():
+    global config
+
     add_states()
     clean_municipality_data()
 
     df_rate = clean_infection_rate_data()
     df_num = clean_infection_num_data()
-
-
-    #Establish parameters for connection to database
-    config = {
-        'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
-        'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
-        'host': 'localhost',
-        'port': 3306,
-        'database': 'RI_DATA',
-    'raise_on_warnings': True                    
-    }
 
     #Establish connection to database
     db_connection = mysql.connector.connect(**config)
@@ -911,16 +895,6 @@ def main():
     df_vax_rate = clean_vaccination_rate_data()
     df_vax_num = clean_vaccination_num_data()
 
-    #Establish parameters for connection to database
-    config = {
-        'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
-        'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
-        'host': 'localhost',
-        'port': 3306,
-        'database': 'RI_DATA',
-        'raise_on_warnings': True                    
-    }
-
     #Establish connection to database
     db_connection = mysql.connector.connect(**config)
 
@@ -941,16 +915,6 @@ def main():
     df_death_rate = clean_death_rate_data()
     df_death_num = clean_death_num_data()
 
-    #Establish parameters for connection to database
-    config = {
-        'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
-        'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
-        'host': 'localhost',
-        'port': 3306,
-        'database': 'RI_DATA',
-        'raise_on_warnings': True                    
-    }
-
     #Establish connection to database
     db_connection = mysql.connector.connect(**config)
 
@@ -970,16 +934,6 @@ def main():
 
     df_hospit_rate = clean_hospit_rate_data()
     df_hospit_num = clean_hospit_num_data()
-
-    #Establish parameters for connection to database
-    config = {
-        'user': 'placeholder', # USE YOUR USERNAME, NEVER PUSH THIS
-        'password': 'placeholder', # USE YOUR PASSWORD, NEVER PUSH THIS
-        'host': 'localhost',
-        'port': 3306,
-        'database': 'RI_DATA',
-        'raise_on_warnings': True                    
-    }
 
     #Establish connection to database
     db_connection = mysql.connector.connect(**config)
