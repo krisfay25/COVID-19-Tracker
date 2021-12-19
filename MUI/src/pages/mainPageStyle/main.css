@@ -1,0 +1,11 @@
+.bg_image{
+    background-image: url(covid-19-cells-on-red-background-vector.jpg);
+    background-size: cover;
+    height: 100vh;
+};
+
+.title{
+    font-family: "Lucida Console", Courier, monospace;
+    color:white;
+};
+
