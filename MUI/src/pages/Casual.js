@@ -69,6 +69,11 @@ function Casual(props) {
         data: "vaccinated_rate_per_100k"
       },
       {
+        key: "hospitalizations",
+        title: "Hospitalization Rates",
+        data: "hospital_rate_per_100k"
+      },
+      {
         key: "deaths",
         title: "Death Rates",
         data: "death_rate_per_100k"
@@ -115,6 +120,7 @@ function Casual(props) {
         total_vaccinated: currData.total_vaccinated,
         case_rate: currData.case_rate_per_100k,
         vaccination_rate: currData.vaccinated_rate_per_100k,
+        hospitalization_rate: currData.hospital_rate_per_100k,
         death_rate: currData.death_rate_per_100k,
         options: {
           title: {
@@ -166,6 +172,22 @@ function Casual(props) {
           return "#FF5700";
         case (currPoly.vaccination_rate >= 60000):
           return "#FF0000";
+        default:
+          return "#ffffff";
+      }
+    }
+    else if (legendDataType === "hospitalizations") {
+      switch (true) {
+        case (currPoly.hospitalization_rate >= 1000):
+          return "FF0000";
+        case (currPoly.hospitalization_rate >= 800):
+          return "#FF5700";
+        case (currPoly.hospitalization_rate >= 600):
+          return "#FFE400";
+        case (currPoly.hospitalization_rate >= 400):
+          return "#FFE400";
+        case (currPoly.hospitalization_rate >= 200):
+          return "#00FF00";
         default:
           return "#ffffff";
       }
@@ -245,6 +267,9 @@ border-radius: 0;
               setLegendDataType("vaccinations");
             }}>Vaccination Rate</Button>
             <Button variant="contained" size="small" onClick={() => {
+              setLegendDataType("hospitalizations");
+            }}>Hospitalization Rate</Button>
+            <Button variant="contained" size="small" onClick={() => {
               setLegendDataType("deaths");
             }}>Death Rate</Button>
           </Stack>
@@ -268,6 +293,10 @@ border-radius: 0;
                   {legendDataType === "vaccinations"
                     ? <div className="rates"> Vaccination Rate: {coor.vaccination_rate}<br></br></div>
                     : <> Vaccination Rate: {coor.vaccination_rate} <br></br></>}
+
+                  {legendDataType === "hospitalizations"
+                    ? <div className="rates"> Hospitalization Rate: {coor.hospitalization_rate}<br></br></div>
+                    : <> Hospitalization Rate: {coor.hospitalization_rate} <br></br></>}
 
                   {legendDataType === "deaths"
                     ? <div className="rates"> Death Rate: {coor.death_rate} <br></br></div>

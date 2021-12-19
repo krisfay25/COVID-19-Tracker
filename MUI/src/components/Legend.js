@@ -8,6 +8,7 @@ const Legend = ({ dataType }) => {
         new LegendItem(
             dataType === "cases" ? "16,000+" :
                 dataType === "vaccinations" ? "60,000-62,499" :
+                dataType === "hospitalizations" ? "1000+" :
                     "400+",
             "#FF0000",
             (cases) => cases >= 100000
@@ -15,6 +16,7 @@ const Legend = ({ dataType }) => {
         new LegendItem(
             dataType === "cases" ? "12,000-15,999" :
                 dataType === "vaccinations" ? "62,500-64,999" :
+                dataType === "hospitalizations" ? "800-999":
                     "300-399",
             "#FF5700",
             (cases) => cases >= 75000 && cases <= 99999
@@ -22,6 +24,7 @@ const Legend = ({ dataType }) => {
         new LegendItem(
             dataType === "cases" ? "8,000-11,999" :
                 dataType === "vaccinations" ? "65,000-67,499" :
+                dataType === "hospitalizations" ? "600-799":
                     "200-299",
             "#FFE400",
             (cases) => cases >= 50000 && cases <= 74999
@@ -29,6 +32,7 @@ const Legend = ({ dataType }) => {
         new LegendItem(
             dataType === "cases" ? "4,000-7,999" :
                 dataType === "vaccinations" ? "67,500-69,999" :
+                dataType === "hospitalizations" ? "400-599":
                     "100-199",
             "#6AFF00",
             (cases) => cases >= 25000 && cases <= 49999
@@ -36,6 +40,7 @@ const Legend = ({ dataType }) => {
         new LegendItem(
             dataType === "cases" ? "0-3,999" :
                 dataType === "vaccinations" ? "70,000+" :
+                dataType === "hospitalizations" ? "200-399":
                     "0-99",
             "#00FF00",
             (cases) => cases >= 0
@@ -61,6 +66,7 @@ const Legend = ({ dataType }) => {
                     <ListSubheader component="div" id="nested-list-subheader">
                         {dataType === "cases" ? "Case Rate" :
                             dataType === "vaccinations" ? "Vaccination Rate" :
+                            dataType === "hospitalizations" ? "Hospitalization Rate":
                                 "Death Rate"}
                     </ListSubheader>
                 }
