@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from 'react';
 import { MapContainer, TileLayer, Polygon, Popup } from 'react-leaflet'
 import React, { Component } from 'react';
-import './CasualStyle/Casual.css';
+import './leaflet/Casual.css';
 import TemporaryDrawer from '../components/TemporaryDrawer';
 import axios from 'axios';
 import Legend from '../components/Legend';
