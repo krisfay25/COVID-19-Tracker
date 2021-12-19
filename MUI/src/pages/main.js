@@ -36,7 +36,7 @@ function Main(props) {
     <>
       <CssBaseline />
 
-      <main class="bg_image">
+      <main className="bg_image">
         <div>
           <br />
           <Typography variant='h2' className={classes.custom} align="center" color="textPrimary" gutterBottom>
