@@ -40,7 +40,7 @@ function Main(props) {
         <div>
           <br />
           <Typography variant='h2' className={classes.custom} align="center" color="textPrimary" gutterBottom>
-            Covid-19 Rhode Island Tracker
+            Covid-19 Tracker
             <hr color='#fffff' width='1200px' size='30px'></hr>
           </Typography>
 
