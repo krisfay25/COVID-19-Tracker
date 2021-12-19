@@ -10,11 +10,11 @@ import { fontWeight, letterSpacing } from '@mui/system';
 const useStyles = makeStyles({
   custom: {
     color: "#FFFFFF",
-    letterSpacing: 20,
-    fontWeight: "bold"
+    letterSpacing: 20
   },
   custom2:{
     color: "#FFFFFF",
+    fontFamily: "New Century Schoolbook, TeX Gyre Schola, serif",
     letterSpacing: 15
   },
   custom3:{
@@ -79,7 +79,7 @@ function Main(props) {
               <br />
               <Typography variant='h5' className={classes.custom3} align="center" color="textSecondary" gutterBottom>
                 This selection allows visual aids in the form of maps and gives a
-                <br />county by county breakdown of COVID cases and vaccination rates and more.
+                <br />county by county breakdown of COVID cases, vaccination rates and more.
               </Typography>
             </div>
           )}
