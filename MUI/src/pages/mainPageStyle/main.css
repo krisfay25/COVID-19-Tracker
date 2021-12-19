@@ -1,0 +1,11 @@
+.bg_image{
+    background-image: url(virus-g53efea6a5_1920.jpg);
+    background-size: cover;
+    height: 100vh;
+};
+
+.title{
+    font-family: "Lucida Console", Courier, monospace;
+    color:white;
+};
+
