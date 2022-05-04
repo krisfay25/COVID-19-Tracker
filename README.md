@@ -1,4 +1,4 @@
-# 447Team1Project
+# COVID-19 Tracker
 
 ### Steps to download database/tables/data:
 (Prerequisites: Need MySQL Community Server (Full option) downloaded onto your computer)
